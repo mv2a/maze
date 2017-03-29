@@ -27,7 +27,7 @@ enum MazeStructure {
 
 }
 
-public class Maze {
+public final class Maze {
 
     private String[] mazeData;
 
@@ -35,28 +35,33 @@ public class Maze {
 
     private final int dimensionY;
 
-    private boolean stringContainsExactlyOneOfGivenChar(String str, char c) {
-        return str.chars().filter(ch -> ch == c).count() == 1;
+    private final long numberOfWalls;
+    private final long numberOfEmptySpaces;
+
+
+    private long countStringContainsOfGivenChar(String str, char c) {
+        return str.chars().filter(ch -> ch == c).count();
     }
 
     public Maze(String mazeStr) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(mazeStr), "Maze can not be empty!");
-        Preconditions.checkArgument(stringContainsExactlyOneOfGivenChar(mazeStr, MazeStructure.START.charRepresentation()), "Maze should have exactly one starting point!");
-        Preconditions.checkArgument(stringContainsExactlyOneOfGivenChar(mazeStr, MazeStructure.EXIT.charRepresentation()), "Maze should have exactly one exit point!");
-
+        Preconditions.checkArgument(countStringContainsOfGivenChar(mazeStr, MazeStructure.START.charRepresentation()) == 1, "Maze should have exactly one starting point!");
+        Preconditions.checkArgument(countStringContainsOfGivenChar(mazeStr, MazeStructure.EXIT.charRepresentation()) == 1, "Maze should have exactly one exit point!");
 
         this.mazeData = mazeStr.split(MazeStructure.NEWROW.representation());
 
         dimensionX = mazeData[0].length();
         dimensionY = mazeData.length;
+        numberOfWalls = countStringContainsOfGivenChar(mazeStr,MazeStructure.WALL.charRepresentation());
+        numberOfEmptySpaces = countStringContainsOfGivenChar(mazeStr,MazeStructure.SPACE.charRepresentation());
     }
 
-    public int getNumberOfWalls() {
-        return 0;
+    public long getNumberOfWalls() {
+        return numberOfWalls;
     }
 
-    public int getNumberOfEmpytSpaces() {
-        return 0;
+    public long getNumberOfEmptySpaces() {
+        return numberOfEmptySpaces;
     }
 
     public int getDimensionX() {

@@ -100,4 +100,28 @@ public class MazeTest {
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one exit point!");
     }
+
+
+    @Test
+    public void mazeInitializedWithCorrectNumberOfWallsAndSpaces() {
+        String simpleMaze =
+                "XXXX\n" +
+                "XS X\n" +
+                "X  X\n" +
+                "XXFX\n";
+
+        Maze maze = new Maze(simpleMaze);
+
+        Assert.assertThat(maze.getNumberOfWalls(), is(11L));
+        Assert.assertThat(maze.getNumberOfEmptySpaces(), is(3L));
+    }
+
+    @Test
+    public void exampleMazeShouldReturnCorrectNumberOfWallsAndSpaces() {
+        Maze maze = new Maze(exampleMaze);
+
+        Assert.assertThat(maze.getNumberOfWalls(), is(149L));
+        Assert.assertThat(maze.getNumberOfEmptySpaces(), is(74L));
+    }
+
 }
