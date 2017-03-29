@@ -6,12 +6,12 @@ import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.Optional;
 
+
 enum MazeStructure {
     WALL('X'),
     SPACE(' '),
     START('S'),
-    EXIT('F'),
-    NEWROW('\n');
+    EXIT('F');
 
     private char charRepresentation;
 
@@ -32,9 +32,9 @@ enum MazeStructure {
         return structureFromChar.orElseThrow(() -> new IllegalArgumentException(String.format("Maze structure not recognised from '%s'!", ch)));
     }
 
-}
+    }
 
-public final class Maze {
+public class Maze {
 
     private String[] mazeData;
 
@@ -45,8 +45,14 @@ public final class Maze {
     private final long numberOfWalls;
     private final long numberOfEmptySpaces;
 
+    private final MazeCoordinate startLocation;
 
-    private long countStringContainsOfGivenChar(String str, char c) {
+    private final MazeCoordinate exitLocation;
+
+    private final String LINEBREAK = "\\r?\\n";
+
+
+    private final long countStringContainsOfGivenChar(String str, char c) {
         return str.chars().filter(ch -> ch == c).count();
     }
 
@@ -55,12 +61,32 @@ public final class Maze {
         Preconditions.checkArgument(countStringContainsOfGivenChar(mazeStr, MazeStructure.START.charRepresentation()) == 1, "Maze should have exactly one starting point!");
         Preconditions.checkArgument(countStringContainsOfGivenChar(mazeStr, MazeStructure.EXIT.charRepresentation()) == 1, "Maze should have exactly one exit point!");
 
-        this.mazeData = mazeStr.split(MazeStructure.NEWROW.representation());
+        this.mazeData = mazeStr.split(LINEBREAK);
+
+        Preconditions.checkArgument(allRowsHasTheSameLength(this.mazeData), "Maze rows should consist of the same number of blocks!");
 
         dimensionX = mazeData[0].length();
         dimensionY = mazeData.length;
+
+        startLocation = findLocation(mazeStr, MazeStructure.START);
+        exitLocation = findLocation(mazeStr, MazeStructure.EXIT);
+
         numberOfWalls = countStringContainsOfGivenChar(mazeStr, MazeStructure.WALL.charRepresentation());
         numberOfEmptySpaces = countStringContainsOfGivenChar(mazeStr, MazeStructure.SPACE.charRepresentation());
+    }
+
+    private final MazeCoordinate findLocation(String mazeStr, MazeStructure mazeStructure) {
+        int indexOfLocation = mazeStr.indexOf(mazeStructure.charRepresentation());
+        return new MazeCoordinate(indexOfLocation % (dimensionX + 1), indexOfLocation / (dimensionX + 1));
+    }
+
+    private final boolean allRowsHasTheSameLength(String[] mazeData) {
+        for (String mazeRow : mazeData) {
+            if (mazeRow.length() != mazeData[0].length()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public long getNumberOfWalls() {
@@ -77,6 +103,14 @@ public final class Maze {
 
     public int getDimensionY() {
         return dimensionY;
+    }
+
+    public MazeCoordinate getStartLocation() {
+        return startLocation;
+    }
+
+    public MazeCoordinate getExitLocation() {
+        return exitLocation;
     }
 
     public MazeStructure whatsAt(MazeCoordinate coord) {

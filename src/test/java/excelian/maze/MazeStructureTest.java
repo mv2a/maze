@@ -29,11 +29,6 @@ public class MazeStructureTest {
     }
 
     @Test
-    public void mazeStructureCharLinebreakShouldBeRecognizesAsNewRow() {
-        assertThat(MazeStructure.from('\n'), is(MazeStructure.NEWROW));
-    }
-
-    @Test
     public void unknownStructureCharShouldThrowException() {
         assertThatThrownBy(() -> MazeStructure.from('?')
         ).isInstanceOf(IllegalArgumentException.class)

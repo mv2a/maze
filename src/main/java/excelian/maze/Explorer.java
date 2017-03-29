@@ -1,19 +1,22 @@
 package excelian.maze;
 
-public class Explorer {
+import java.util.List;
 
-	private int[] movement;
+public interface Explorer {
 
-	public void exploreMaze(Maze m) {
+	void moveForward();
 
-	}
+	void turnLeft();
 
-	private void move() {
+	void turnRight();
 
-	}
+	List<Direction> getPossibleDirections();
 
-	private void turn() {
+	MazeStructure whatsInFront();
 
-	}
+	List<MazeCoordinate> getMovements();
+
+    ExplorerLocation getLocation();
+
 
 }

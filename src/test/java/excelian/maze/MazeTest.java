@@ -87,7 +87,7 @@ public class MazeTest {
     }
 
     @Test
-    public void mazeWithMultipleExitgPointShouldFailInitialization() {
+    public void mazeWithMultipleExitPointShouldFailInitialization() {
         String mazeWithMultipleExitPoint =
                 "XXXX\n" +
                 "XS X\n" +
@@ -111,6 +111,24 @@ public class MazeTest {
 
         Maze maze = new Maze(simpleMaze);
 
+        assertThat(maze.getDimensionX(), is(4));
+        assertThat(maze.getDimensionY(), is(4));
+        assertThat(maze.getNumberOfWalls(), is(11L));
+        assertThat(maze.getNumberOfEmptySpaces(), is(3L));
+    }
+
+    @Test
+    public void mazeInitializedWithCorrectNumberOfWallsAndSpacesLinebreakWIthCarriageReturn() {
+        String simpleMaze =
+                "XXXX\r\n" +
+                "XS X\r\n" +
+                "X  X\r\n" +
+                "XXFX";
+
+        Maze maze = new Maze(simpleMaze);
+
+        assertThat(maze.getDimensionX(), is(4));
+        assertThat(maze.getDimensionY(), is(4));
         assertThat(maze.getNumberOfWalls(), is(11L));
         assertThat(maze.getNumberOfEmptySpaces(), is(3L));
     }
@@ -137,6 +155,57 @@ public class MazeTest {
         assertThat(maze.whatsAt(new MazeCoordinate(3, 3)), is(MazeStructure.WALL));
         assertThat(maze.whatsAt(new MazeCoordinate(1, 1)), is(MazeStructure.START));
         assertThat(maze.whatsAt(new MazeCoordinate(2, 3)), is(MazeStructure.EXIT));
+    }
+
+    @Test
+    public void mazeShouldTellWhereStartLocationIs() {
+        String simpleMaze =
+                "XXXX\n" +
+                "X SX\n" +
+                "X  X\n" +
+                "XXFX\n";
+
+        Maze maze = new Maze(simpleMaze);
+        assertThat(maze.getStartLocation(), is(new MazeCoordinate(2,1)));
+    }
+
+    @Test
+    public void mazeWithDifferentRowLengthShouldFailInitialization() {
+        String mazeWithDifferentLenghRows =
+                "XXFX\n" +
+                "X S X\n" +
+                "XXXX\n";
+
+        assertThatThrownBy(() ->
+                new Maze(mazeWithDifferentLenghRows)
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Maze rows should consist of the same number of blocks!");
+    }
+
+    @Test
+    public void mazeShouldTellWhereExitLocationIs() {
+        String simpleMaze =
+                "XXXX\n" +
+                "X SX\n" +
+                "X  X\n" +
+                "XFXX\n";
+
+        Maze maze = new Maze(simpleMaze);
+        assertThat(maze.getExitLocation(), is(new MazeCoordinate(1,3)));
+    }
+
+
+    @Test
+    public void mazeShouldTellWhereExitLocationIsIfLast() {
+        String simpleMaze =
+                "XXXXX\n" +
+                "X  SX\n" +
+                "X   X\n" +
+                "X   X\n" +
+                "XXXFX\n";
+
+        Maze maze = new Maze(simpleMaze);
+        assertThat(maze.getExitLocation(), is(new MazeCoordinate(3,4)));
     }
 
 }
