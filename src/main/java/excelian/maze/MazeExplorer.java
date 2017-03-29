@@ -17,13 +17,9 @@ public class MazeExplorer implements Explorer {
     private List<MazeCoordinate> movement;
     private ExplorerLocation location;
 
-    public final void startExplore(Maze maze) {
-        startExplore(maze, ClockWiseDirection.UP);
-    }
-
-    public final void startExplore(Maze maze, ClockWiseDirection startingDriection) {
+    public MazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
         this.maze = maze;
-        location = new ExplorerLocation(maze.getStartLocation(), startingDriection);
+        location = new ExplorerLocation(maze.getStartLocation(), startingDirection);
         this.movement = new ArrayList<>();
         this.movement.add(maze.getStartLocation());
     }
@@ -35,6 +31,7 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public void moveForward() {
+
         MazeCoordinate nextFieldToMove = calculateNextFieldToMove(location.getDirection());
         if (isValidFieldToMoveTo(maze.whatsAt(nextFieldToMove))) {
             this.movement.add(nextFieldToMove);
