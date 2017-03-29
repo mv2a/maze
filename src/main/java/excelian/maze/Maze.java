@@ -41,9 +41,9 @@ public class Maze {
 
     public Maze(String mazeStr) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(mazeStr), "Maze can not be empty!");
-        Preconditions.checkArgument(mazeStr.contains(MazeStructure.START.representation()), "Maze should have a starting point!");
-        Preconditions.checkArgument(mazeStr.contains(MazeStructure.EXIT.representation()), "Maze should have an exit point!");
         Preconditions.checkArgument(stringContainsExactlyOneOfGivenChar(mazeStr, MazeStructure.START.charRepresentation()), "Maze should have exactly one starting point!");
+        Preconditions.checkArgument(stringContainsExactlyOneOfGivenChar(mazeStr, MazeStructure.EXIT.charRepresentation()), "Maze should have exactly one exit point!");
+
 
         this.mazeData = mazeStr.split(MazeStructure.NEWROW.representation());
 

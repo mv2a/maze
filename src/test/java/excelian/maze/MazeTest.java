@@ -56,7 +56,7 @@ public class MazeTest {
         assertThatThrownBy(() ->
                 new Maze(mazeWithoutStartingPoint)
         ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Maze should have a starting point!");
+                .hasMessageContaining("Maze should have exactly one starting point!");
     }
 
     @Test
@@ -70,20 +70,34 @@ public class MazeTest {
         assertThatThrownBy(() ->
                 new Maze(mazeWithoutExitPoint)
         ).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Maze should have an exit point!");
+                .hasMessageContaining("Maze should have exactly one exit point!");
     }
 
     @Test
     public void mazeWithMultipleStartingPointShouldFailInitialization() {
-        String mazeWithoutStartingPoint =
+        String mazeWithMultipleStartingPoint =
                 "XXXX\n" +
                 "X  X\n" +
                 "XSSX\n" +
                 "XXFX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithoutStartingPoint)
+                new Maze(mazeWithMultipleStartingPoint)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one starting point!");
+    }
+
+    @Test
+    public void mazeWithMultipleExitgPointShouldFailInitialization() {
+        String mazeWithMultipleExitPoint =
+                "XXXX\n" +
+                "XS X\n" +
+                "X  X\n" +
+                "XFFX\n";
+
+        assertThatThrownBy(() ->
+                new Maze(mazeWithMultipleExitPoint)
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Maze should have exactly one exit point!");
     }
 }
