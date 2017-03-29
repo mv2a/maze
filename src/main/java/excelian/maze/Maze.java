@@ -1,5 +1,8 @@
 package excelian.maze;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+
 public class Maze {
 
     private String[] mazeData;
@@ -11,6 +14,8 @@ public class Maze {
     private static final String LINEBREAK = "\n";
 
     public Maze(String mazeStr) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(mazeStr), "Maze can not be empty!");
+
         this.mazeData = mazeStr.split(LINEBREAK);
         dimensionX = mazeData[0].length();
         dimensionY = mazeData.length;
