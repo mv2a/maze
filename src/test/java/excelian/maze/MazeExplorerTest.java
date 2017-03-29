@@ -75,8 +75,8 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(FieldIsOutOfMazeException.class)
-                .hasMessageContaining("Movement is out of the maze!");
+        ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
+                .hasMessageContaining("Field is out of the maze!");
 
     }
 
@@ -87,8 +87,8 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(FieldIsOutOfMazeException.class)
-                .hasMessageContaining("Movement is out of the maze!");
+        ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
+                .hasMessageContaining("Field is out of the maze!");
     }
 
     @Test
@@ -98,8 +98,8 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(FieldIsOutOfMazeException.class)
-                .hasMessageContaining("Movement is out of the maze!");
+        ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
+                .hasMessageContaining("Field is out of the maze!");
 
     }
 
@@ -110,8 +110,8 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(FieldIsOutOfMazeException.class)
-                .hasMessageContaining("Movement is out of the maze!");
+        ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
+                .hasMessageContaining("Field is out of the maze!");
     }
 
     @Test

@@ -44,16 +44,16 @@ public class MazeExplorer implements Explorer {
     private MazeCoordinate calculateNextFieldToMove(ClockWiseDirection direction) {
         switch (direction) {
             case UP:
-                if (location.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeException();
+                if (location.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeBoundsException();
                 return location.getCoordinate().above();
             case DOWN:
-                if (location.getCoordinate().getY() == maze.getDimensionY() - 1) throw new FieldIsOutOfMazeException();
+                if (location.getCoordinate().getY() == maze.getDimensionY() - 1) throw new FieldIsOutOfMazeBoundsException();
                 return location.getCoordinate().below();
             case LEFT:
-                if (location.getCoordinate().getX() == 0) throw new FieldIsOutOfMazeException();
+                if (location.getCoordinate().getX() == 0) throw new FieldIsOutOfMazeBoundsException();
                 return location.getCoordinate().toTheLeft();
             case RIGHT:
-                if (location.getCoordinate().getX() == maze.getDimensionX() - 1) throw new FieldIsOutOfMazeException();
+                if (location.getCoordinate().getX() == maze.getDimensionX() - 1) throw new FieldIsOutOfMazeBoundsException();
                 return location.getCoordinate().toTheRight();
         }
         throw new UnsupportedOperationException(String.format("Direction %s not supported!", location.getDirection()));
@@ -88,7 +88,7 @@ public class MazeExplorer implements Explorer {
         try {
             MazeCoordinate nextFieldToMove = calculateNextFieldToMove(direction);
             return Optional.of(maze.whatsAt(nextFieldToMove));
-        } catch (FieldIsOutOfMazeException ex) {
+        } catch (FieldIsOutOfMazeBoundsException ex) {
             return Optional.empty();
         }
     }
