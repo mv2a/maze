@@ -6,6 +6,7 @@ import excelian.maze.model.MazeStructure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MazeExplorer implements Explorer {
 
@@ -13,9 +14,13 @@ public class MazeExplorer implements Explorer {
     private List<MazeCoordinate> movement;
     private ExplorerLocation location;
 
-    public void startExplore(Maze maze) {
+    public final void startExplore(Maze maze) {
+        startExplore(maze, ClockWiseDirection.UP);
+    }
+
+    public final void startExplore(Maze maze, ClockWiseDirection startingDriection) {
         this.maze = maze;
-        location = new ExplorerLocation(maze.getStartLocation(), ClockWiseDirection.UP);
+        location = new ExplorerLocation(maze.getStartLocation(), startingDriection);
         this.movement = new ArrayList<>();
         this.movement.add(maze.getStartLocation());
     }
@@ -79,8 +84,13 @@ public class MazeExplorer implements Explorer {
     }
 
     @Override
-    public MazeStructure whatsInFront() {
-        return null;
+    public Optional<MazeStructure> whatsInFront() {
+        try {
+            MazeCoordinate nextFieldToMove = calculateAndVerifyNextFieldToMove();
+            return Optional.of(maze.whatsAt(nextFieldToMove));
+        } catch (MovementIsOutOfMazeException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -92,4 +102,5 @@ public class MazeExplorer implements Explorer {
     public ExplorerLocation getLocation() {
         return location;
     }
+
 }

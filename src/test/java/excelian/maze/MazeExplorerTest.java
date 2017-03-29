@@ -6,6 +6,8 @@ import excelian.maze.model.MazeStructure;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -23,18 +25,19 @@ public class MazeExplorerTest {
 
     private MazeCoordinate startLocation = new MazeCoordinate(1, 1);
 
+
     @Before
     public void Setup() {
         explorer = new MazeExplorer();
         when(mazeMock.getStartLocation()).thenReturn(startLocation);
         when(mazeMock.getDimensionX()).thenReturn(mazeDimension);
         when(mazeMock.getDimensionY()).thenReturn(mazeDimension);
-
-        explorer.startExplore(mazeMock);
     }
 
     @Test
     public void shouldInitializeInStartLocationTest() {
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
         ExplorerLocation loc = explorer.getLocation();
         assertThat(loc.getDirection(), is(ClockWiseDirection.UP));
         assertThat(loc.getCoordinate(), is(startLocation));
@@ -42,23 +45,29 @@ public class MazeExplorerTest {
 
     @Test
     public void shouldMoveForwardToUpIfFieldIsSpace() {
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
         shouldMoveUpWhenFieldIs(MazeStructure.SPACE);
     }
 
     @Test
     public void shouldMoveForwardToUpIfFieldIsExit() {
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
         shouldMoveUpWhenFieldIs(MazeStructure.EXIT);
     }
 
     @Test
     public void shouldMoveForwardToUpIfFieldIsStart() {
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
         shouldMoveUpWhenFieldIs(MazeStructure.START);
     }
-
 
     @Test
     public void shouldThrowExceptionWhenMoveForwardAndFieldIsWall() {
         when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.WALL);
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -69,7 +78,7 @@ public class MazeExplorerTest {
     @Test
     public void shouldThrowExceptionWhenMoveToUpAndFieldIsOutOfBounds() {
         when(mazeMock.getStartLocation()).thenReturn(topLeftCorner);
-        explorer.startExplore(mazeMock);
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -81,8 +90,7 @@ public class MazeExplorerTest {
     @Test
     public void shouldThrowExceptionWhenMoveToLeftAndFieldIsOutOfBounds() {
         when(mazeMock.getStartLocation()).thenReturn(topLeftCorner);
-        explorer.startExplore(mazeMock);
-        explorer.turnLeft();
+        explorer.startExplore(mazeMock, ClockWiseDirection.LEFT);
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -93,10 +101,7 @@ public class MazeExplorerTest {
     @Test
     public void shouldThrowExceptionWhenMoveToDownAndFieldIsOutOfBounds() {
         when(mazeMock.getStartLocation()).thenReturn(bottomRightCorner);
-
-        explorer.startExplore(mazeMock);
-        explorer.turnRight();
-        explorer.turnRight();
+        explorer.startExplore(mazeMock, ClockWiseDirection.DOWN);
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -108,9 +113,7 @@ public class MazeExplorerTest {
     @Test
     public void shouldThrowExceptionWhenMoveToRightAndFieldIsOutOfBounds() {
         when(mazeMock.getStartLocation()).thenReturn(bottomRightCorner);
-
-        explorer.startExplore(mazeMock);
-        explorer.turnRight();
+        explorer.startExplore(mazeMock, ClockWiseDirection.RIGHT);
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -120,8 +123,8 @@ public class MazeExplorerTest {
 
     @Test
     public void shouldMoveToRightIfFieldIsSpace() {
-        explorer.turnRight();
         when(mazeMock.whatsAt(startLocation.toTheRight())).thenReturn(MazeStructure.SPACE);
+        explorer.startExplore(mazeMock, ClockWiseDirection.RIGHT);
 
         explorer.moveForward();
 
@@ -132,8 +135,8 @@ public class MazeExplorerTest {
 
     @Test
     public void shouldMoveToLeftIfFieldIsSpace() {
-        explorer.turnLeft();
         when(mazeMock.whatsAt(startLocation.toTheLeft())).thenReturn(MazeStructure.SPACE);
+        explorer.startExplore(mazeMock, ClockWiseDirection.LEFT);
 
         explorer.moveForward();
 
@@ -144,9 +147,8 @@ public class MazeExplorerTest {
 
     @Test
     public void shouldMoveDownIfFieldIsSpace() {
-        explorer.turnLeft();
-        explorer.turnLeft();
         when(mazeMock.whatsAt(startLocation.below())).thenReturn(MazeStructure.SPACE);
+        explorer.startExplore(mazeMock, ClockWiseDirection.DOWN);
 
         explorer.moveForward();
 
@@ -155,9 +157,48 @@ public class MazeExplorerTest {
         assertThat(loc.getCoordinate(), is(startLocation.below()));
     }
 
+    @Test
+    public void whatsInFrontShouldReturnWallIfAbove() {
+        when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.WALL);
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
+        assertThat(explorer.whatsInFront(), is(Optional.of(MazeStructure.WALL)));
+    }
+
+    @Test
+    public void whatsInFrontShouldReturnWallIfLeft() {
+        when(mazeMock.whatsAt(startLocation.toTheLeft())).thenReturn(MazeStructure.WALL);
+        explorer.startExplore(mazeMock, ClockWiseDirection.LEFT);
+
+        assertThat(explorer.whatsInFront(), is(Optional.of(MazeStructure.WALL)));
+    }
+
+    @Test
+    public void whatsInFrontShouldReturnWallIfRight() {
+        when(mazeMock.whatsAt(startLocation.toTheRight())).thenReturn(MazeStructure.WALL);
+        explorer.startExplore(mazeMock, ClockWiseDirection.RIGHT);
+
+        assertThat(explorer.whatsInFront(), is(Optional.of(MazeStructure.WALL)));
+    }
+
+    @Test
+    public void whatsInFrontShouldReturnWallIfDown() {
+        when(mazeMock.whatsAt(startLocation.below())).thenReturn(MazeStructure.WALL);
+        explorer.startExplore(mazeMock, ClockWiseDirection.DOWN);
+
+        assertThat(explorer.whatsInFront(), is(Optional.of(MazeStructure.WALL)));
+    }
+
+    @Test
+    public void whatsInFrontShouldReturnNoneIfOutOfBounds() {
+        when(mazeMock.getStartLocation()).thenReturn(topLeftCorner);
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
+        assertThat(explorer.whatsInFront(), is(Optional.empty()));
+    }
+
     private void shouldMoveUpWhenFieldIs(MazeStructure field) {
         when(mazeMock.whatsAt(startLocation.above())).thenReturn(field);
-
         explorer.moveForward();
 
         ExplorerLocation loc = explorer.getLocation();

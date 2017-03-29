@@ -4,6 +4,7 @@ import excelian.maze.model.MazeCoordinate;
 import excelian.maze.model.MazeStructure;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Explorer {
 
@@ -15,7 +16,7 @@ public interface Explorer {
 
 	List<ClockWiseDirection> getPossibleDirections();
 
-	MazeStructure whatsInFront();
+    Optional<MazeStructure> whatsInFront();
 
 	List<MazeCoordinate> getMovements();
 

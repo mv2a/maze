@@ -19,10 +19,6 @@ public enum MazeStructure {
         return charRepresentation;
     }
 
-    public String representation() {
-        return Character.toString(charRepresentation);
-    }
-
     public static MazeStructure from(char ch) {
         Optional<MazeStructure> structureFromChar = Arrays.stream(MazeStructure.values()).filter(ms -> ms.charRepresentation == ch).findFirst();
         return structureFromChar.orElseThrow(() -> new IllegalArgumentException(String.format("Maze structure not recognised from '%s'!", ch)));
