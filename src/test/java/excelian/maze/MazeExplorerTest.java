@@ -14,17 +14,21 @@ import static org.mockito.Mockito.when;
 
 public class MazeExplorerTest {
 
+    public static final int mazeDimension = 10;
+    MazeCoordinate bottomRightCorner = new MazeCoordinate(mazeDimension - 1, mazeDimension - 1);
+    MazeCoordinate topLeftCorner = new MazeCoordinate(0, 0);
+
     private final Maze mazeMock = mock(Maze.class);
     private MazeExplorer explorer;
 
     private MazeCoordinate startLocation = new MazeCoordinate(1, 1);
 
-    private MazeCoordinate topLeftCorner = new MazeCoordinate(0, 0);
-
     @Before
     public void Setup() {
         explorer = new MazeExplorer();
         when(mazeMock.getStartLocation()).thenReturn(startLocation);
+        when(mazeMock.getDimensionX()).thenReturn(mazeDimension);
+        when(mazeMock.getDimensionY()).thenReturn(mazeDimension);
 
         explorer.startExplore(mazeMock);
     }
@@ -63,10 +67,50 @@ public class MazeExplorerTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenMoveForwardAndFieldIsOutOfBounds() {
-        when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.WALL);
+    public void shouldThrowExceptionWhenMoveToUpAndFieldIsOutOfBounds() {
         when(mazeMock.getStartLocation()).thenReturn(topLeftCorner);
         explorer.startExplore(mazeMock);
+
+        assertThatThrownBy(() ->
+                explorer.moveForward()
+        ).isInstanceOf(MovementIsOutOfMazeException.class)
+                .hasMessageContaining("Movement is out of the maze!");
+
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenMoveToLeftAndFieldIsOutOfBounds() {
+        when(mazeMock.getStartLocation()).thenReturn(topLeftCorner);
+        explorer.startExplore(mazeMock);
+        explorer.turnLeft();
+
+        assertThatThrownBy(() ->
+                explorer.moveForward()
+        ).isInstanceOf(MovementIsOutOfMazeException.class)
+                .hasMessageContaining("Movement is out of the maze!");
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenMoveToDownAndFieldIsOutOfBounds() {
+        when(mazeMock.getStartLocation()).thenReturn(bottomRightCorner);
+
+        explorer.startExplore(mazeMock);
+        explorer.turnRight();
+        explorer.turnRight();
+
+        assertThatThrownBy(() ->
+                explorer.moveForward()
+        ).isInstanceOf(MovementIsOutOfMazeException.class)
+                .hasMessageContaining("Movement is out of the maze!");
+
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenMoveToRightAndFieldIsOutOfBounds() {
+        when(mazeMock.getStartLocation()).thenReturn(bottomRightCorner);
+
+        explorer.startExplore(mazeMock);
+        explorer.turnRight();
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
@@ -120,8 +164,5 @@ public class MazeExplorerTest {
         assertThat(loc.getDirection(), is(ClockWiseDirection.UP));
         assertThat(loc.getCoordinate(), is(startLocation.above()));
     }
-
-
-
 
 }

@@ -22,13 +22,7 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public void moveForward() {
-
-        MazeCoordinate nextFieldToMove;
-        try {
-            nextFieldToMove = nextFieldToMove();
-        } catch (IllegalArgumentException ex) {
-            throw new MovementIsOutOfMazeException();
-        }
+        MazeCoordinate nextFieldToMove = calculateAndVerifyNextFieldToMove();
 
         switch (maze.whatsAt(nextFieldToMove)) {
             case START:
@@ -42,7 +36,20 @@ public class MazeExplorer implements Explorer {
         }
     }
 
-    private MazeCoordinate nextFieldToMove() {
+    private MazeCoordinate calculateAndVerifyNextFieldToMove() {
+        MazeCoordinate nextFieldToMove;
+        try {
+            nextFieldToMove = calculateNextFieldToMove();
+        } catch (IllegalArgumentException ex) {
+            throw new MovementIsOutOfMazeException();
+        }
+        if (nextFieldToMove.getX() >= maze.getDimensionX() || nextFieldToMove.getY() >= maze.getDimensionY()) {
+            throw new MovementIsOutOfMazeException();
+        }
+        return nextFieldToMove;
+    }
+
+    private MazeCoordinate calculateNextFieldToMove() {
         switch (location.getDirection()) {
             case UP:
                 return location.getCoordinate().above();
