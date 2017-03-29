@@ -6,6 +6,7 @@ import excelian.maze.model.MazeStructure;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -71,8 +72,8 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(MovementBlockedByWallException.class)
-                .hasMessageContaining("Movement is blocked by wall!");
+        ).isInstanceOf(MovementBlockedException.class)
+                .hasMessageContaining("Movement is blocked!");
     }
 
     @Test
@@ -82,7 +83,7 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(MovementIsOutOfMazeException.class)
+        ).isInstanceOf(FieldIsOutOfMazeException.class)
                 .hasMessageContaining("Movement is out of the maze!");
 
     }
@@ -94,7 +95,7 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(MovementIsOutOfMazeException.class)
+        ).isInstanceOf(FieldIsOutOfMazeException.class)
                 .hasMessageContaining("Movement is out of the maze!");
     }
 
@@ -105,7 +106,7 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(MovementIsOutOfMazeException.class)
+        ).isInstanceOf(FieldIsOutOfMazeException.class)
                 .hasMessageContaining("Movement is out of the maze!");
 
     }
@@ -117,7 +118,7 @@ public class MazeExplorerTest {
 
         assertThatThrownBy(() ->
                 explorer.moveForward()
-        ).isInstanceOf(MovementIsOutOfMazeException.class)
+        ).isInstanceOf(FieldIsOutOfMazeException.class)
                 .hasMessageContaining("Movement is out of the maze!");
     }
 
@@ -197,6 +198,30 @@ public class MazeExplorerTest {
         assertThat(explorer.whatsInFront(), is(Optional.empty()));
     }
 
+    @Test
+    public void getPossibleDirectionsShouldReturnAllTheDirectionsIfExplorerCanMoveThere() {
+        when(mazeMock.whatsAt(startLocation.below())).thenReturn(MazeStructure.SPACE);
+        when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.SPACE);
+        when(mazeMock.whatsAt(startLocation.toTheLeft())).thenReturn(MazeStructure.SPACE);
+        when(mazeMock.whatsAt(startLocation.toTheRight())).thenReturn(MazeStructure.SPACE);
+
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
+        assertThat(explorer.getPossibleDirections(), is(Arrays.asList(ClockWiseDirection.values())));
+    }
+
+    @Test
+    public void getPossibleDirectionsShouldReturnNoTheDirectionsIfExplorerCannotMoveAnywhere() {
+        when(mazeMock.whatsAt(startLocation.below())).thenReturn(MazeStructure.WALL);
+        when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.WALL);
+        when(mazeMock.whatsAt(startLocation.toTheLeft())).thenReturn(MazeStructure.WALL);
+        when(mazeMock.whatsAt(startLocation.toTheRight())).thenReturn(MazeStructure.WALL);
+
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+
+        assertThat(explorer.getPossibleDirections(), is(Arrays.asList(new ClockWiseDirection[]{})));
+    }
+
     private void shouldMoveUpWhenFieldIs(MazeStructure field) {
         when(mazeMock.whatsAt(startLocation.above())).thenReturn(field);
         explorer.moveForward();
@@ -205,5 +230,6 @@ public class MazeExplorerTest {
         assertThat(loc.getDirection(), is(ClockWiseDirection.UP));
         assertThat(loc.getCoordinate(), is(startLocation.above()));
     }
+
 
 }

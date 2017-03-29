@@ -5,13 +5,16 @@ import excelian.maze.model.MazeCoordinate;
 import excelian.maze.model.MazeStructure;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class MazeExplorer implements Explorer {
 
     private Maze maze;
-    private List<MazeCoordinate> movement;
+    private List<MazeCoordinate> movements;
     private ExplorerLocation location;
 
     public final void startExplore(Maze maze) {
@@ -21,48 +24,39 @@ public class MazeExplorer implements Explorer {
     public final void startExplore(Maze maze, ClockWiseDirection startingDriection) {
         this.maze = maze;
         location = new ExplorerLocation(maze.getStartLocation(), startingDriection);
-        this.movement = new ArrayList<>();
-        this.movement.add(maze.getStartLocation());
+        this.movements = new ArrayList<>();
+        this.movements.add(maze.getStartLocation());
+    }
+
+    private boolean isValidFieldToMoveTo(MazeStructure field) {
+        return !field.equals(MazeStructure.WALL);
+
     }
 
     @Override
     public void moveForward() {
-        MazeCoordinate nextFieldToMove = calculateAndVerifyNextFieldToMove();
-
-        switch (maze.whatsAt(nextFieldToMove)) {
-            case START:
-            case EXIT:
-            case SPACE:
-                this.movement.add(nextFieldToMove);
-                this.location = location.withCoordinate(nextFieldToMove);
-                break;
-            case WALL:
-                throw new MovementBlockedByWallException();
+        MazeCoordinate nextFieldToMove = calculateNextFieldToMove(location.getDirection());
+        if (isValidFieldToMoveTo(maze.whatsAt(nextFieldToMove))) {
+            this.movements.add(nextFieldToMove);
+            this.location = location.withCoordinate(nextFieldToMove);
+        } else {
+            throw new MovementBlockedException();
         }
     }
 
-    private MazeCoordinate calculateAndVerifyNextFieldToMove() {
-        MazeCoordinate nextFieldToMove;
-        try {
-            nextFieldToMove = calculateNextFieldToMove();
-        } catch (IllegalArgumentException ex) {
-            throw new MovementIsOutOfMazeException();
-        }
-        if (nextFieldToMove.getX() >= maze.getDimensionX() || nextFieldToMove.getY() >= maze.getDimensionY()) {
-            throw new MovementIsOutOfMazeException();
-        }
-        return nextFieldToMove;
-    }
-
-    private MazeCoordinate calculateNextFieldToMove() {
-        switch (location.getDirection()) {
+    private MazeCoordinate calculateNextFieldToMove(ClockWiseDirection direction) {
+        switch (direction) {
             case UP:
+                if (location.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeException();
                 return location.getCoordinate().above();
             case DOWN:
+                if (location.getCoordinate().getY() == maze.getDimensionY() - 1) throw new FieldIsOutOfMazeException();
                 return location.getCoordinate().below();
             case LEFT:
+                if (location.getCoordinate().getX() == 0) throw new FieldIsOutOfMazeException();
                 return location.getCoordinate().toTheLeft();
             case RIGHT:
+                if (location.getCoordinate().getX() == maze.getDimensionX() - 1) throw new FieldIsOutOfMazeException();
                 return location.getCoordinate().toTheRight();
         }
         throw new UnsupportedOperationException(String.format("Direction %s not supported!", location.getDirection()));
@@ -78,24 +72,38 @@ public class MazeExplorer implements Explorer {
         location = location.turnRight();
     }
 
-    @Override
-    public List<ClockWiseDirection> getPossibleDirections() {
-        return null;
+    private Predicate<ClockWiseDirection> isValidFieldToMoveTo() {
+        return d -> {
+            Optional<MazeStructure> ms = whatsInDirection(d);
+            return ms.isPresent() && isValidFieldToMoveTo(ms.get());
+        };
     }
 
     @Override
-    public Optional<MazeStructure> whatsInFront() {
+    public List<ClockWiseDirection> getPossibleDirections() {
+        return Arrays.stream(ClockWiseDirection.values())
+                .filter(isValidFieldToMoveTo())
+                .collect(Collectors.toList());
+    }
+
+
+    private Optional<MazeStructure> whatsInDirection(ClockWiseDirection direction) {
         try {
-            MazeCoordinate nextFieldToMove = calculateAndVerifyNextFieldToMove();
+            MazeCoordinate nextFieldToMove = calculateNextFieldToMove(direction);
             return Optional.of(maze.whatsAt(nextFieldToMove));
-        } catch (MovementIsOutOfMazeException ex) {
+        } catch (FieldIsOutOfMazeException ex) {
             return Optional.empty();
         }
     }
 
     @Override
-    public List<MazeCoordinate> getMovements() {
-        return null;
+    public Optional<MazeStructure> whatsInFront() {
+        return whatsInDirection(location.getDirection());
+    }
+
+    @Override
+    public List<MazeCoordinate> getMovement() {
+        return movements;
     }
 
     @Override
