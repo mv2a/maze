@@ -22,14 +22,23 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public void moveForward() {
-        MazeCoordinate nextFieldToMove = nextFieldToMove();
+
+        MazeCoordinate nextFieldToMove;
+        try {
+            nextFieldToMove = nextFieldToMove();
+        } catch (IllegalArgumentException ex) {
+            throw new MovementIsOutOfMazeException();
+        }
+
         switch (maze.whatsAt(nextFieldToMove)) {
             case START:
             case EXIT:
             case SPACE:
                 this.movement.add(nextFieldToMove);
                 this.location = location.withCoordinate(nextFieldToMove);
-
+                break;
+            case WALL:
+                throw new MovementBlockedByWallException();
         }
     }
 
