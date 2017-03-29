@@ -18,6 +18,8 @@ public interface Explorer {
 
     Optional<MazeStructure> whatsInFront();
 
+    MazeStructure whereAmI();
+
 	List<MazeCoordinate> getMovement();
 
     ExplorerLocation getLocation();

@@ -45,8 +45,8 @@ public class MazeImpl implements Maze {
     }
 
     private final MazeCoordinate findLocation(String mazeStr, MazeStructure mazeStructure) {
-        int indexOfLocation = mazeStr.indexOf(mazeStructure.charRepresentation());
-        return new MazeCoordinate(indexOfLocation % (dimensionX + 1), indexOfLocation / (dimensionX + 1));
+        int indexOfLocation = mazeStr.replaceAll(LINEBREAK, "").indexOf(mazeStructure.charRepresentation());
+        return new MazeCoordinate(indexOfLocation % dimensionX, indexOfLocation / dimensionX);
     }
 
     private final boolean allRowsHasTheSameLength(String[] mazeData) {

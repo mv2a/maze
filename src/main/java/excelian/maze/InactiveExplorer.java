@@ -41,4 +41,9 @@ public class InactiveExplorer implements Explorer {
     public ExplorerLocation getLocation() {
         throw new InvalidExplorerStateException();
     }
+
+    @Override
+    public MazeStructure whereAmI() {
+        throw new InvalidExplorerStateException();
+    }
 }

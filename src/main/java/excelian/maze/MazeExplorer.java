@@ -99,6 +99,11 @@ public class MazeExplorer implements Explorer {
     }
 
     @Override
+    public MazeStructure whereAmI() {
+        return maze.whatsAt(location.getCoordinate());
+    }
+
+    @Override
     public List<MazeCoordinate> getMovement() {
         return movement;
     }

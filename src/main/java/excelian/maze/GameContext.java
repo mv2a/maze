@@ -24,6 +24,12 @@ public class GameContext implements Explorer {
         explorerState.moveForward();
     }
 
+    public void moveForward(int nrOfFields) {
+        for (int i = 0; i < nrOfFields; i++) {
+            explorerState.moveForward();
+        }
+    }
+
     @Override
     public void turnLeft() {
         explorerState.turnLeft();
@@ -32,6 +38,11 @@ public class GameContext implements Explorer {
     @Override
     public void turnRight() {
         explorerState.turnRight();
+    }
+
+    @Override
+    public MazeStructure whereAmI() {
+        return explorerState.whereAmI();
     }
 
     @Override

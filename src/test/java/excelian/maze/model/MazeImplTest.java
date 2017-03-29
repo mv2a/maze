@@ -132,6 +132,7 @@ public class MazeImplTest {
         assertThat(maze.getDimensionY(), is(4));
         assertThat(maze.getNumberOfWalls(), is(11L));
         assertThat(maze.getNumberOfEmptySpaces(), is(3L));
+        assertThat(maze.getStartLocation(),is(new MazeCoordinate(1,1)));
     }
 
     @Test
