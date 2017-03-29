@@ -1,6 +1,6 @@
-import excelian.maze.Maze
-import excelian.maze.MazeCoordinate
-import excelian.maze.MazeStructure
+import excelian.maze.model.MazeCoordinate
+import excelian.maze.model.MazeImpl
+import excelian.maze.model.MazeStructure
 import spock.lang.Unroll
 
 @Unroll
@@ -12,7 +12,7 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
         def fileName = "/ExampleMaze.txt"
         given: "The example maze in file '#fileName' is created"
         String mazeStr = this.getClass().getResource(fileName).text
-        Maze maze = new Maze(mazeStr)
+        MazeImpl maze = new MazeImpl(mazeStr)
     }
 
     // After a maze has been created the number of walls and empty spaces should be available to me.
@@ -20,7 +20,7 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
 
         given: "The example maze in file '#fileName' is created"
         String mazeStr = this.getClass().getResource(fileName).text
-        Maze maze = new Maze(mazeStr)
+        MazeImpl maze = new MazeImpl(mazeStr)
 
         expect: "Maze created with number of walls '#nrOfWalls' and number of spaces '#nrOfSpaces'"
         maze.numberOfWalls == nrOfWalls
@@ -37,7 +37,7 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
 
         given: "The example maze in file '#fileName' is created"
         String mazeStr = this.getClass().getResource(fileName).text
-        Maze maze = new Maze(mazeStr)
+        MazeImpl maze = new MazeImpl(mazeStr)
 
         expect: "Maze created with number of walls '#nrOfWalls' and number of spaces '#nrOfSpaces'"
         maze.whatsAt(coordinate) == whatShouldBeThere

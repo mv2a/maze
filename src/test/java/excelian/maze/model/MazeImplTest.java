@@ -1,12 +1,13 @@
-package excelian.maze;
+package excelian.maze.model;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 
-public class MazeTest {
+public class MazeImplTest {
 
     private String exampleMaze =
             "XXXXXXXXXXXXXXX\n" +
@@ -27,7 +28,7 @@ public class MazeTest {
 
     @Test
     public void exampleMazeShouldBeInitialized() {
-        Maze maze = new Maze(exampleMaze);
+        MazeImpl maze = new MazeImpl(exampleMaze);
 
         assertThat(maze.getDimensionX(), is(15));
         assertThat(maze.getDimensionY(), is(15));
@@ -38,7 +39,7 @@ public class MazeTest {
         String emptyMaze = "";
 
         assertThatThrownBy(() ->
-                new Maze(emptyMaze)
+                new MazeImpl(emptyMaze)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze can not be empty!");
 
@@ -53,7 +54,7 @@ public class MazeTest {
                 "XXFX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithoutStartingPoint)
+                new MazeImpl(mazeWithoutStartingPoint)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one starting point!");
     }
@@ -67,7 +68,7 @@ public class MazeTest {
                 "XXXX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithoutExitPoint)
+                new MazeImpl(mazeWithoutExitPoint)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one exit point!");
     }
@@ -81,7 +82,7 @@ public class MazeTest {
                 "XXFX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithMultipleStartingPoint)
+                new MazeImpl(mazeWithMultipleStartingPoint)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one starting point!");
     }
@@ -95,7 +96,7 @@ public class MazeTest {
                 "XFFX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithMultipleExitPoint)
+                new MazeImpl(mazeWithMultipleExitPoint)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze should have exactly one exit point!");
     }
@@ -109,7 +110,7 @@ public class MazeTest {
                 "X  X\n" +
                 "XXFX\n";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
 
         assertThat(maze.getDimensionX(), is(4));
         assertThat(maze.getDimensionY(), is(4));
@@ -125,7 +126,7 @@ public class MazeTest {
                 "X  X\r\n" +
                 "XXFX";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
 
         assertThat(maze.getDimensionX(), is(4));
         assertThat(maze.getDimensionY(), is(4));
@@ -135,7 +136,7 @@ public class MazeTest {
 
     @Test
     public void exampleMazeShouldReturnCorrectNumberOfWallsAndSpaces() {
-        Maze maze = new Maze(exampleMaze);
+        MazeImpl maze = new MazeImpl(exampleMaze);
 
         assertThat(maze.getNumberOfWalls(), is(149L));
         assertThat(maze.getNumberOfEmptySpaces(), is(74L));
@@ -149,7 +150,7 @@ public class MazeTest {
                 "X  X\n" +
                 "XXFX\n";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
 
         assertThat(maze.whatsAt(new MazeCoordinate(0, 0)), is(MazeStructure.WALL));
         assertThat(maze.whatsAt(new MazeCoordinate(3, 3)), is(MazeStructure.WALL));
@@ -165,7 +166,7 @@ public class MazeTest {
                 "X  X\n" +
                 "XXFX\n";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
         assertThat(maze.getStartLocation(), is(new MazeCoordinate(2,1)));
     }
 
@@ -177,7 +178,7 @@ public class MazeTest {
                 "XXXX\n";
 
         assertThatThrownBy(() ->
-                new Maze(mazeWithDifferentLenghRows)
+                new MazeImpl(mazeWithDifferentLenghRows)
         ).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Maze rows should consist of the same number of blocks!");
     }
@@ -190,7 +191,7 @@ public class MazeTest {
                 "X  X\n" +
                 "XFXX\n";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
         assertThat(maze.getExitLocation(), is(new MazeCoordinate(1,3)));
     }
 
@@ -204,7 +205,7 @@ public class MazeTest {
                 "X   X\n" +
                 "XXXFX\n";
 
-        Maze maze = new Maze(simpleMaze);
+        MazeImpl maze = new MazeImpl(simpleMaze);
         assertThat(maze.getExitLocation(), is(new MazeCoordinate(3,4)));
     }
 

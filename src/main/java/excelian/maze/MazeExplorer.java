@@ -1,5 +1,9 @@
 package excelian.maze;
 
+import excelian.maze.model.Maze;
+import excelian.maze.model.MazeCoordinate;
+import excelian.maze.model.MazeStructure;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,32 +11,54 @@ public class MazeExplorer implements Explorer {
 
     private Maze maze;
     private List<MazeCoordinate> movement;
-    private Direction headingDirection = Direction.UP;
+    private ExplorerLocation location;
 
-    void startExplore(Maze maze) {
+    public void startExplore(Maze maze) {
         this.maze = maze;
-        this.headingDirection = Direction.UP;
+        location = new ExplorerLocation(maze.getStartLocation(), ClockWiseDirection.UP);
         this.movement = new ArrayList<>();
         this.movement.add(maze.getStartLocation());
     }
 
     @Override
     public void moveForward() {
+        MazeCoordinate nextFieldToMove = nextFieldToMove();
+        switch (maze.whatsAt(nextFieldToMove)) {
+            case START:
+            case EXIT:
+            case SPACE:
+                this.movement.add(nextFieldToMove);
+                this.location = location.withCoordinate(nextFieldToMove);
 
+        }
+    }
+
+    private MazeCoordinate nextFieldToMove() {
+        switch (location.getDirection()) {
+            case UP:
+                return location.getCoordinate().above();
+            case DOWN:
+                return location.getCoordinate().below();
+            case LEFT:
+                return location.getCoordinate().toTheLeft();
+            case RIGHT:
+                return location.getCoordinate().toTheRight();
+        }
+        throw new UnsupportedOperationException(String.format("Direction %s not supported!", location.getDirection()));
     }
 
     @Override
     public void turnLeft() {
-
+        location = location.turnLeft();
     }
 
     @Override
     public void turnRight() {
-
+        location = location.turnRight();
     }
 
     @Override
-    public List<Direction> getPossibleDirections() {
+    public List<ClockWiseDirection> getPossibleDirections() {
         return null;
     }
 
@@ -48,6 +74,6 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public ExplorerLocation getLocation() {
-        return new ExplorerLocation(movement.get(movement.size() - 1), headingDirection);
+        return location;
     }
 }

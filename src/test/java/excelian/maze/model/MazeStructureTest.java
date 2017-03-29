@@ -1,4 +1,4 @@
-package excelian.maze;
+package excelian.maze.model;
 
 import org.junit.Test;
 

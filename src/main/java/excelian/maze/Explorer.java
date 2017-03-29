@@ -1,5 +1,8 @@
 package excelian.maze;
 
+import excelian.maze.model.MazeCoordinate;
+import excelian.maze.model.MazeStructure;
+
 import java.util.List;
 
 public interface Explorer {
@@ -10,7 +13,7 @@ public interface Explorer {
 
 	void turnRight();
 
-	List<Direction> getPossibleDirections();
+	List<ClockWiseDirection> getPossibleDirections();
 
 	MazeStructure whatsInFront();
 

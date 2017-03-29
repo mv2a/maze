@@ -1,4 +1,4 @@
-package excelian.maze;
+package excelian.maze.model;
 
 import com.google.common.base.Preconditions;
 
@@ -20,6 +20,30 @@ public class MazeCoordinate {
 
     public int getY() {
         return y;
+    }
+
+    public MazeCoordinate withX(int newX) {
+        return new MazeCoordinate(newX, y);
+    }
+
+    public MazeCoordinate withY(int newY) {
+        return new MazeCoordinate(x, newY);
+    }
+
+    public MazeCoordinate toTheLeft() {
+        return new MazeCoordinate(x-1, y);
+    }
+
+    public MazeCoordinate toTheRight() {
+        return new MazeCoordinate(x+1, y);
+    }
+
+    public MazeCoordinate above() {
+        return new MazeCoordinate(x, y-1);
+    }
+
+    public MazeCoordinate below() {
+        return new MazeCoordinate(x, y+1);
     }
 
     @Override
