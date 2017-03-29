@@ -1,6 +1,6 @@
 package excelian.maze;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,8 +29,8 @@ public class MazeTest {
     public void exampleMazeShouldBeInitialized() {
         Maze maze = new Maze(exampleMaze);
 
-        Assert.assertThat(maze.getDimensionX(), is(15));
-        Assert.assertThat(maze.getDimensionY(), is(15));
+        assertThat(maze.getDimensionX(), is(15));
+        assertThat(maze.getDimensionY(), is(15));
     }
 
     @Test
@@ -111,16 +111,16 @@ public class MazeTest {
 
         Maze maze = new Maze(simpleMaze);
 
-        Assert.assertThat(maze.getNumberOfWalls(), is(11L));
-        Assert.assertThat(maze.getNumberOfEmptySpaces(), is(3L));
+        assertThat(maze.getNumberOfWalls(), is(11L));
+        assertThat(maze.getNumberOfEmptySpaces(), is(3L));
     }
 
     @Test
     public void exampleMazeShouldReturnCorrectNumberOfWallsAndSpaces() {
         Maze maze = new Maze(exampleMaze);
 
-        Assert.assertThat(maze.getNumberOfWalls(), is(149L));
-        Assert.assertThat(maze.getNumberOfEmptySpaces(), is(74L));
+        assertThat(maze.getNumberOfWalls(), is(149L));
+        assertThat(maze.getNumberOfEmptySpaces(), is(74L));
     }
 
     @Test
@@ -133,10 +133,10 @@ public class MazeTest {
 
         Maze maze = new Maze(simpleMaze);
 
-        Assert.assertThat(maze.whatsAt(new MazeCoordinate(0, 0)), is(MazeStructure.WALL));
-        Assert.assertThat(maze.whatsAt(new MazeCoordinate(3, 3)), is(MazeStructure.WALL));
-        Assert.assertThat(maze.whatsAt(new MazeCoordinate(1, 1)), is(MazeStructure.START));
-        Assert.assertThat(maze.whatsAt(new MazeCoordinate(2, 3)), is(MazeStructure.EXIT));
+        assertThat(maze.whatsAt(new MazeCoordinate(0, 0)), is(MazeStructure.WALL));
+        assertThat(maze.whatsAt(new MazeCoordinate(3, 3)), is(MazeStructure.WALL));
+        assertThat(maze.whatsAt(new MazeCoordinate(1, 1)), is(MazeStructure.START));
+        assertThat(maze.whatsAt(new MazeCoordinate(2, 3)), is(MazeStructure.EXIT));
     }
 
 }

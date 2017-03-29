@@ -1,6 +1,6 @@
 package excelian.maze;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,15 +27,15 @@ public class MazeCoordinateTest {
     @Test
     public void validCoordinateOrigoShouldBeCreated() {
         MazeCoordinate coord = new MazeCoordinate(0, 0);
-        Assert.assertThat(coord.getX(), is(0));
-        Assert.assertThat(coord.getY(), is(0));
+        assertThat(coord.getX(), is(0));
+        assertThat(coord.getY(), is(0));
     }
 
 
     @Test
     public void validCoordinateShouldBeCreated() {
         MazeCoordinate coord = new MazeCoordinate(11, 12);
-        Assert.assertThat(coord.getX(), is(11));
-        Assert.assertThat(coord.getY(), is(12));
+        assertThat(coord.getX(), is(11));
+        assertThat(coord.getY(), is(12));
     }
 }
