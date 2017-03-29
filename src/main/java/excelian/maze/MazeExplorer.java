@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class MazeExplorer implements Explorer {
 
     private Maze maze;
-    private List<MazeCoordinate> movements;
+    private List<MazeCoordinate> movement;
     private ExplorerLocation location;
 
     public final void startExplore(Maze maze) {
@@ -24,8 +24,8 @@ public class MazeExplorer implements Explorer {
     public final void startExplore(Maze maze, ClockWiseDirection startingDriection) {
         this.maze = maze;
         location = new ExplorerLocation(maze.getStartLocation(), startingDriection);
-        this.movements = new ArrayList<>();
-        this.movements.add(maze.getStartLocation());
+        this.movement = new ArrayList<>();
+        this.movement.add(maze.getStartLocation());
     }
 
     private boolean isValidFieldToMoveTo(MazeStructure field) {
@@ -37,7 +37,7 @@ public class MazeExplorer implements Explorer {
     public void moveForward() {
         MazeCoordinate nextFieldToMove = calculateNextFieldToMove(location.getDirection());
         if (isValidFieldToMoveTo(maze.whatsAt(nextFieldToMove))) {
-            this.movements.add(nextFieldToMove);
+            this.movement.add(nextFieldToMove);
             this.location = location.withCoordinate(nextFieldToMove);
         } else {
             throw new MovementBlockedException();
@@ -103,7 +103,7 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public List<MazeCoordinate> getMovement() {
-        return movements;
+        return movement;
     }
 
     @Override

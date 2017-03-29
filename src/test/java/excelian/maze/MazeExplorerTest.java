@@ -222,6 +222,26 @@ public class MazeExplorerTest {
         assertThat(explorer.getPossibleDirections(), is(Arrays.asList(new ClockWiseDirection[]{})));
     }
 
+    @Test
+    public void movementShouldBeTracked() {
+        when(mazeMock.whatsAt(startLocation.above())).thenReturn(MazeStructure.SPACE);
+        explorer.startExplore(mazeMock, ClockWiseDirection.UP);
+        explorer.moveForward();
+        assertThat(explorer.getLocation(), is(new ExplorerLocation(new MazeCoordinate(1, 0), ClockWiseDirection.UP)));
+        explorer.turnLeft();
+        when(mazeMock.whatsAt(new MazeCoordinate(1, 0).toTheLeft())).thenReturn(MazeStructure.SPACE);
+        explorer.moveForward();
+        assertThat(explorer.getLocation(), is(new ExplorerLocation(new MazeCoordinate(0, 0), ClockWiseDirection.LEFT)));
+
+        assertThat(explorer.getMovement(), is(Arrays.asList(
+                new MazeCoordinate[]{
+                        new MazeCoordinate(1, 1),
+                        new MazeCoordinate(1, 0),
+                        new MazeCoordinate(0, 0)
+                }
+        )));
+    }
+
     private void shouldMoveUpWhenFieldIs(MazeStructure field) {
         when(mazeMock.whatsAt(startLocation.above())).thenReturn(field);
         explorer.moveForward();
