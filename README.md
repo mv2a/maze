@@ -3,6 +3,8 @@
 
 ###Assumptions I made:
 - upgraded to java 1.8 to be able to use the latest features java 8 has to offer
+- maze dimensions can be different (number of rows and columns should not be equal)
+
 
 This coding example will form the basis of your interview with Excelian (should you progress), you should be ready to explain any and all of the choices you have made when writing the solution.
 There is no stated time limit but we would not envisage it would take longer than a couple of hours.
