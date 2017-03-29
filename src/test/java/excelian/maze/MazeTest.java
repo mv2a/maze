@@ -124,7 +124,7 @@ public class MazeTest {
     }
 
     @Test
-    public void mazeShouldTellWhatIsAtGivenCoordinate(){
+    public void mazeShouldTellWhatIsAtGivenCoordinate() {
         String simpleMaze =
                 "XXXX\n" +
                 "XS X\n" +
@@ -133,10 +133,10 @@ public class MazeTest {
 
         Maze maze = new Maze(simpleMaze);
 
-        Assert.assertThat(maze.whatsAt(0,0), is(MazeStructure.WALL));
-        Assert.assertThat(maze.whatsAt(3,3), is(MazeStructure.WALL));
-        Assert.assertThat(maze.whatsAt(1,1), is(MazeStructure.START));
-        Assert.assertThat(maze.whatsAt(2,3), is(MazeStructure.EXIT));
+        Assert.assertThat(maze.whatsAt(new MazeCoordinate(0, 0)), is(MazeStructure.WALL));
+        Assert.assertThat(maze.whatsAt(new MazeCoordinate(3, 3)), is(MazeStructure.WALL));
+        Assert.assertThat(maze.whatsAt(new MazeCoordinate(1, 1)), is(MazeStructure.START));
+        Assert.assertThat(maze.whatsAt(new MazeCoordinate(2, 3)), is(MazeStructure.EXIT));
     }
 
 }

@@ -79,7 +79,7 @@ public final class Maze {
         return dimensionY;
     }
 
-    public MazeStructure whatsAt(int x, int y) {
-        return MazeStructure.from(mazeData[y].charAt(x));
+    public MazeStructure whatsAt(MazeCoordinate coord) {
+        return MazeStructure.from(mazeData[coord.getY()].charAt(coord.getX()));
     }
 }
