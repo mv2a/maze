@@ -3,6 +3,8 @@ package excelian.maze;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
+import java.util.Arrays;
+import java.util.Optional;
 
 enum MazeStructure {
     WALL('X'),
@@ -23,6 +25,11 @@ enum MazeStructure {
 
     public String representation() {
         return Character.toString(charRepresentation);
+    }
+
+    public static MazeStructure from(char ch) {
+        Optional<MazeStructure> structureFromChar = Arrays.stream(MazeStructure.values()).filter(ms -> ms.charRepresentation == ch).findFirst();
+        return structureFromChar.orElseThrow(() -> new IllegalArgumentException(String.format("Maze structure not recognised from '%s'!", ch)));
     }
 
 }
@@ -52,8 +59,8 @@ public final class Maze {
 
         dimensionX = mazeData[0].length();
         dimensionY = mazeData.length;
-        numberOfWalls = countStringContainsOfGivenChar(mazeStr,MazeStructure.WALL.charRepresentation());
-        numberOfEmptySpaces = countStringContainsOfGivenChar(mazeStr,MazeStructure.SPACE.charRepresentation());
+        numberOfWalls = countStringContainsOfGivenChar(mazeStr, MazeStructure.WALL.charRepresentation());
+        numberOfEmptySpaces = countStringContainsOfGivenChar(mazeStr, MazeStructure.SPACE.charRepresentation());
     }
 
     public long getNumberOfWalls() {
@@ -70,5 +77,9 @@ public final class Maze {
 
     public int getDimensionY() {
         return dimensionY;
+    }
+
+    public MazeStructure whatsAt(int x, int y) {
+        return MazeStructure.from(mazeData[y].charAt(x));
     }
 }

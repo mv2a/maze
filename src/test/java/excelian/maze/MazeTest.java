@@ -3,7 +3,6 @@ package excelian.maze;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.Matchers.is;
 
@@ -122,6 +121,22 @@ public class MazeTest {
 
         Assert.assertThat(maze.getNumberOfWalls(), is(149L));
         Assert.assertThat(maze.getNumberOfEmptySpaces(), is(74L));
+    }
+
+    @Test
+    public void mazeShouldTellWhatIsAtGivenCoordinate(){
+        String simpleMaze =
+                "XXXX\n" +
+                "XS X\n" +
+                "X  X\n" +
+                "XXFX\n";
+
+        Maze maze = new Maze(simpleMaze);
+
+        Assert.assertThat(maze.whatsAt(0,0), is(MazeStructure.WALL));
+        Assert.assertThat(maze.whatsAt(3,3), is(MazeStructure.WALL));
+        Assert.assertThat(maze.whatsAt(1,1), is(MazeStructure.START));
+        Assert.assertThat(maze.whatsAt(2,3), is(MazeStructure.EXIT));
     }
 
 }
