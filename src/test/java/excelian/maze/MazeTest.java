@@ -45,4 +45,33 @@ public class MazeTest {
 
     }
 
+    @Test
+    public void mazeWithoutStartingPointShouldFailInitialization() {
+        String mazeWithoutStartingPoint =
+                "XXXX\n" +
+                "X  X\n" +
+                "X  X\n" +
+                "XXFX\n";
+
+        assertThatThrownBy(() ->
+                new Maze(mazeWithoutStartingPoint)
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Maze should have a starting point!");
+
+    }
+
+    @Test
+    public void mazeWithoutExitPointShouldFailInitialization() {
+        String mazeWithoutExitPoint =
+                "XXXX\n" +
+                "X  X\n" +
+                "XS X\n" +
+                "XXXX\n";
+
+        assertThatThrownBy(() ->
+                new Maze(mazeWithoutExitPoint)
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Maze should have an exit point!");
+
+    }
 }

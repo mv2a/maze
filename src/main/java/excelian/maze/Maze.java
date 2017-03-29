@@ -15,6 +15,8 @@ public class Maze {
 
     public Maze(String mazeStr) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(mazeStr), "Maze can not be empty!");
+        Preconditions.checkArgument(mazeStr.contains("S"), "Maze should have a starting point!");
+        Preconditions.checkArgument(mazeStr.contains("F"), "Maze should have an exit point!");
 
         this.mazeData = mazeStr.split(LINEBREAK);
         dimensionX = mazeData[0].length();
