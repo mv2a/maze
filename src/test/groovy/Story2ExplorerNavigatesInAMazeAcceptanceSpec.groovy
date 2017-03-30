@@ -34,7 +34,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         String mazeStr = this.getClass().getResource(fileName).text
         MazeImpl maze = new MazeImpl(mazeStr)
 
-        Explorer explorer = new MazeExplorer(maze);
+        Explorer explorer = new MazeExplorer(maze)
 
         expect: "The explorer should be in the starting location facing up"
         explorer.position == new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP)
@@ -81,7 +81,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         String mazeStr = this.getClass().getResource(fileName).text
         MazeImpl maze = new MazeImpl(mazeStr)
 
-        Explorer explorer = new MazeExplorer(maze);
+        Explorer explorer = new MazeExplorer(maze)
 
         expect: "The explorer should be in the starting location facing up"
         explorer.position == new ExplorerPosition(new MazeCoordinate(3, 3), HeadingDirectionClockWise.UP)

@@ -13,6 +13,9 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
         given: "The example maze in file '#fileName' is created"
         String mazeStr = this.getClass().getResource(fileName).text
         MazeImpl maze = new MazeImpl(mazeStr)
+
+        expect: "The maze initialised with correct startLocation"
+        maze.startLocation == new MazeCoordinate(3, 3)
     }
 
     // After a maze has been created the number of walls and empty spaces should be available to me.
@@ -46,8 +49,8 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
         fileName         | coordinate                | whatShouldBeThere
         "/TestMaze1.txt" | new MazeCoordinate(0, 0)  | MazeStructure.WALL
         "/TestMaze1.txt" | new MazeCoordinate(1, 1)  | MazeStructure.SPACE
-        "/TestMaze1.txt"     | new MazeCoordinate(3, 3)  | MazeStructure.START
-        "/TestMaze1.txt"     | new MazeCoordinate(1, 14) | MazeStructure.EXIT
+        "/TestMaze1.txt" | new MazeCoordinate(3, 3)  | MazeStructure.START
+        "/TestMaze1.txt" | new MazeCoordinate(1, 14) | MazeStructure.EXIT
     }
 
 

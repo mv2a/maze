@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 
 public class MazeImplTest {
 
-    private String exampleMaze =
+    private final String exampleMaze =
             "XXXXXXXXXXXXXXX\n" +
             "X             X\n" +
             "X XXXXXXXXXXX X\n" +

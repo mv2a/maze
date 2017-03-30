@@ -16,7 +16,7 @@ public class ExplorerPositionTest {
 
     private ExplorerPosition position;
 
-    private Maze mazeMock = mock(Maze.class);
+    private final Maze mazeMock = mock(Maze.class);
 
     @Before
     public void setUp() {
@@ -80,7 +80,7 @@ public class ExplorerPositionTest {
     @Test
     public void positionWithDirectionUpShouldCalculateFieldAbove() {
         ExplorerPosition newPosition = new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP)
-                .calculateMoveForwardPositionInMaze(mazeMock);
+                .calculateForwardPositionInMaze(mazeMock);
         assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 0), HeadingDirectionClockWise.UP)));
     }
 
@@ -88,7 +88,7 @@ public class ExplorerPositionTest {
     public void positionWithDirectionUpShouldFailWhenTopRow() {
         assertThatThrownBy(() ->
                 new ExplorerPosition(new MazeCoordinate(1, 0), HeadingDirectionClockWise.UP)
-                        .calculateMoveForwardPositionInMaze(mazeMock)
+                        .calculateForwardPositionInMaze(mazeMock)
         ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
                 .hasMessageContaining("Field is out of the maze!");
     }
@@ -96,7 +96,7 @@ public class ExplorerPositionTest {
     @Test
     public void positionWithDirectionLeftShouldCalculateFieldToTheLeft() {
         ExplorerPosition newPosition = new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.LEFT)
-                .calculateMoveForwardPositionInMaze(mazeMock);
+                .calculateForwardPositionInMaze(mazeMock);
         assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(0, 1), HeadingDirectionClockWise.LEFT)));
     }
 
@@ -104,7 +104,7 @@ public class ExplorerPositionTest {
     public void positionWithDirectionUpShouldFailWhenLeftestColumn() {
         assertThatThrownBy(() ->
                 new ExplorerPosition(new MazeCoordinate(0, 1), HeadingDirectionClockWise.LEFT)
-                        .calculateMoveForwardPositionInMaze(mazeMock)
+                        .calculateForwardPositionInMaze(mazeMock)
         ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
                 .hasMessageContaining("Field is out of the maze!");
     }
@@ -114,7 +114,7 @@ public class ExplorerPositionTest {
         when(mazeMock.getDimensionX()).thenReturn(3);
         when(mazeMock.getDimensionY()).thenReturn(3);
         ExplorerPosition newPosition = new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.RIGHT)
-                .calculateMoveForwardPositionInMaze(mazeMock);
+                .calculateForwardPositionInMaze(mazeMock);
         assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(2, 1), HeadingDirectionClockWise.RIGHT)));
     }
 
@@ -125,7 +125,7 @@ public class ExplorerPositionTest {
         when(mazeMock.getDimensionY()).thenReturn(3);
         assertThatThrownBy(() ->
                 new ExplorerPosition(new MazeCoordinate(2, 1), HeadingDirectionClockWise.RIGHT)
-                        .calculateMoveForwardPositionInMaze(mazeMock)
+                        .calculateForwardPositionInMaze(mazeMock)
         ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
                 .hasMessageContaining("Field is out of the maze!");
     }
@@ -135,7 +135,7 @@ public class ExplorerPositionTest {
         when(mazeMock.getDimensionX()).thenReturn(3);
         when(mazeMock.getDimensionY()).thenReturn(3);
         ExplorerPosition newPosition = new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.DOWN)
-                .calculateMoveForwardPositionInMaze(mazeMock);
+                .calculateForwardPositionInMaze(mazeMock);
         assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 2), HeadingDirectionClockWise.DOWN)));
     }
 
@@ -145,7 +145,7 @@ public class ExplorerPositionTest {
         when(mazeMock.getDimensionY()).thenReturn(3);
         assertThatThrownBy(() ->
                 new ExplorerPosition(new MazeCoordinate(1, 2), HeadingDirectionClockWise.DOWN)
-                        .calculateMoveForwardPositionInMaze(mazeMock)
+                        .calculateForwardPositionInMaze(mazeMock)
         ).isInstanceOf(FieldIsOutOfMazeBoundsException.class)
                 .hasMessageContaining("Field is out of the maze!");
     }

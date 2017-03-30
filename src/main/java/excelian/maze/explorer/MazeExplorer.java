@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
  */
 public class MazeExplorer implements Explorer {
 
-    protected Maze maze;
-    private List<MazeCoordinate> movement;
+    protected final Maze maze;
+    private final List<MazeCoordinate> movement;
     private ExplorerPosition position;
 
     public MazeExplorer(Maze maze) {
@@ -32,12 +32,12 @@ public class MazeExplorer implements Explorer {
     }
 
     protected void movingToHook(MazeCoordinate mazeCoordinate) {
-        // do nothing here, provide it for extendibility
+        // do nothing here, provide it for extendability
     }
 
     @Override
     public synchronized final void moveForward() {
-        ExplorerPosition newPosition = position.calculateMoveForwardPositionInMaze(maze);
+        ExplorerPosition newPosition = position.calculateForwardPositionInMaze(maze);
         if (maze.whatsAt(newPosition.getCoordinate()).canBeExplored()) {
             movingToHook(newPosition.getCoordinate());
             this.movement.add(newPosition.getCoordinate());
@@ -98,7 +98,7 @@ public class MazeExplorer implements Explorer {
 
     private Optional<MazeStructure> whatsInDirection(HeadingDirectionClockWise direction) {
         try {
-            ExplorerPosition newPosition = position.withDirection(direction).calculateMoveForwardPositionInMaze(maze);
+            ExplorerPosition newPosition = position.withDirection(direction).calculateForwardPositionInMaze(maze);
             return Optional.of(maze.whatsAt(newPosition.getCoordinate()));
         } catch (FieldIsOutOfMazeBoundsException ex) {
             return Optional.empty();

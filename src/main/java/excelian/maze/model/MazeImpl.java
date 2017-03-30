@@ -20,11 +20,6 @@ public final class MazeImpl implements Maze {
 
     private final String LINEBREAK = "\\r?\\n";
 
-
-    private final long countStringContainsOfGivenChar(String str, char c) {
-        return str.chars().filter(ch -> ch == c).count();
-    }
-
     public MazeImpl(String mazeStr) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(mazeStr), "Maze can not be empty!");
         Preconditions.checkArgument(countStringContainsOfGivenChar(mazeStr, MazeStructure.START.charRepresentation()) == 1, "Maze should have exactly one starting point!");
@@ -42,6 +37,10 @@ public final class MazeImpl implements Maze {
 
         numberOfWalls = countStringContainsOfGivenChar(mazeStr, MazeStructure.WALL.charRepresentation());
         numberOfEmptySpaces = countStringContainsOfGivenChar(mazeStr, MazeStructure.SPACE.charRepresentation());
+    }
+
+    private final long countStringContainsOfGivenChar(String str, char c) {
+        return str.chars().filter(ch -> ch == c).count();
     }
 
     private final MazeCoordinate findLocation(String mazeStr, MazeStructure mazeStructure) {

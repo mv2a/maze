@@ -6,33 +6,6 @@ import excelian.maze.model.MazeStructure;
 
 import java.util.*;
 
-class Breadcrumb {
-    private Optional<HeadingDirectionClockWise> cameFrom;
-    private List<HeadingDirectionClockWise> possibleDirections;
-
-    public Breadcrumb(HeadingDirectionClockWise cameFrom, List<HeadingDirectionClockWise> possibleDirections) {
-        this.cameFrom = Optional.of(cameFrom);
-        this.possibleDirections = new ArrayList(possibleDirections);
-        this.possibleDirections.remove(cameFrom);
-    }
-
-
-    public Breadcrumb(List<HeadingDirectionClockWise> possibleDirections) {
-        this.cameFrom = Optional.empty();
-        this.possibleDirections = new ArrayList(possibleDirections);
-        this.possibleDirections.remove(cameFrom);
-    }
-
-    public Optional<HeadingDirectionClockWise> getCameFrom() {
-        return cameFrom;
-    }
-
-    public List<HeadingDirectionClockWise> getPossibleDirections() {
-        return possibleDirections;
-    }
-
-}
-
 public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExplorer {
 
     public AutomaticMazeExplorer(Maze maze) {
@@ -40,40 +13,49 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
         movingToHook(maze.getStartLocation());
     }
 
-    private Stack<Breadcrumb> pathFollowed = new Stack<>();
+    private final Stack<Breadcrumb> pathFollowed = new Stack<>();
 
-    private Set<MazeCoordinate> visitedCoordinates = new HashSet<>();
+    private final Set<MazeCoordinate> visitedCoordinates = new HashSet<>();
 
     @Override
     protected void movingToHook(MazeCoordinate coordinate) {
-        // track visited coordinates in a hashset for fast constant time lookup
+        // track visited coordinates in a HashSet for fast constant time lookup
         visitedCoordinates.add(coordinate);
     }
 
     private boolean findPathTillExit() {
         while (!pathFollowed.isEmpty()) {
-            if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
-                // Get the first direction
-                HeadingDirectionClockWise direction = pathFollowed.peek().getPossibleDirections().remove(0);
-                ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateMoveForwardPositionInMaze(maze);
-                if (visitedCoordinates.contains(nextPosition.getCoordinate())) continue;
-                moveTo(direction);
-                if (whatsAtMyLocation() == MazeStructure.EXIT) {
-                    return true;
-                }
-                pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
+            if (pathFollowed.peek().getPossibleDirections().isEmpty()) {
+                moveBackToFirstFieldWithAlternateRoute();
             } else {
-                // move back till there is a possible crossing
-                Breadcrumb previousBreadcrumb;
-                do {
-                    previousBreadcrumb = pathFollowed.pop();
-                    if (previousBreadcrumb.getCameFrom().isPresent()) {
-                        moveTo(previousBreadcrumb.getCameFrom().get());
+                HeadingDirectionClockWise direction = getFirstPossibleDirection();
+
+                ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateForwardPositionInMaze(maze);
+
+                if (!visitedCoordinates.contains(nextPosition.getCoordinate())) {
+                    moveTo(direction);
+                    if (whatsAtMyLocation() == MazeStructure.EXIT) {
+                        return true;
                     }
-                } while (!previousBreadcrumb.getPossibleDirections().isEmpty());
+                    pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
+                }
             }
         }
         return false;
+    }
+
+    private void moveBackToFirstFieldWithAlternateRoute() {
+        Breadcrumb previousBreadcrumb;
+        do {
+            previousBreadcrumb = pathFollowed.pop();
+            if (previousBreadcrumb.getArrivingFrom().isPresent()) {
+                moveTo(previousBreadcrumb.getArrivingFrom().get());
+            }
+        } while (!previousBreadcrumb.getPossibleDirections().isEmpty());
+    }
+
+    private HeadingDirectionClockWise getFirstPossibleDirection() {
+        return pathFollowed.peek().getPossibleDirections().remove(0);
     }
 
     @Override
@@ -86,4 +68,31 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
             return Optional.empty();
         }
     }
+}
+
+class Breadcrumb {
+    private final Optional<HeadingDirectionClockWise> arrivingFrom;
+    private final List<HeadingDirectionClockWise> possibleDirections;
+
+    public Breadcrumb(HeadingDirectionClockWise arrivingFrom, List<HeadingDirectionClockWise> possibleDirections) {
+        this.arrivingFrom = Optional.of(arrivingFrom);
+        this.possibleDirections = new ArrayList<>(possibleDirections);
+        this.possibleDirections.remove(arrivingFrom);
+    }
+
+
+    public Breadcrumb(List<HeadingDirectionClockWise> possibleDirections) {
+        this.arrivingFrom = Optional.empty();
+        this.possibleDirections = new ArrayList<>(possibleDirections);
+        this.possibleDirections.remove(arrivingFrom);
+    }
+
+    public Optional<HeadingDirectionClockWise> getArrivingFrom() {
+        return arrivingFrom;
+    }
+
+    public List<HeadingDirectionClockWise> getPossibleDirections() {
+        return possibleDirections;
+    }
+
 }

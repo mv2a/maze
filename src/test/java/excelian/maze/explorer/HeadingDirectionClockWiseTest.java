@@ -26,7 +26,7 @@ public class HeadingDirectionClockWiseTest {
 
 
     @Test
-    public void oppositOfDirectionShouldBeCalculated() {
+    public void oppositeOfDirectionShouldBeCalculated() {
         assertThat(HeadingDirectionClockWise.UP.opposite(), is(HeadingDirectionClockWise.DOWN));
         assertThat(HeadingDirectionClockWise.DOWN.opposite(), is(HeadingDirectionClockWise.UP));
         assertThat(HeadingDirectionClockWise.LEFT.opposite(), is(HeadingDirectionClockWise.RIGHT));

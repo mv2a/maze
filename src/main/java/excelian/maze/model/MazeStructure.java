@@ -9,7 +9,7 @@ public enum MazeStructure {
     START('S'),
     EXIT('F');
 
-    private char charRepresentation;
+    private final char charRepresentation;
 
     MazeStructure(char charRepresentation) {
         this.charRepresentation = charRepresentation;

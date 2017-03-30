@@ -5,9 +5,9 @@ import excelian.maze.model.MazeCoordinate;
 
 public class ExplorerPosition {
 
-    private MazeCoordinate coordinate;
+    private final MazeCoordinate coordinate;
 
-    private HeadingDirectionClockWise direction;
+    private final HeadingDirectionClockWise direction;
 
     public ExplorerPosition(MazeCoordinate location, HeadingDirectionClockWise direction) {
         this.coordinate = location;
@@ -38,7 +38,7 @@ public class ExplorerPosition {
         return new ExplorerPosition(coordinate, direction.turnRight());
     }
 
-    public ExplorerPosition calculateMoveForwardPositionInMaze(Maze maze) {
+    public ExplorerPosition calculateForwardPositionInMaze(Maze maze) {
         switch (direction) {
             case UP:
                 if (coordinate.getY() == 0) throw new FieldIsOutOfMazeBoundsException();
