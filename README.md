@@ -33,10 +33,13 @@ Acceptance Criteria:
 * An explorer must be able to automatically explore a maze and find the exit, and on exit they must be able to state the route they took in an understandable fashion.
 
 
-###Assumptions I made, comments on solution:
+##Assumptions, comments:
 - upgraded to java 1.8 to be able to use the latest features java 8 has to offer
 - maze dimensions can be different (number of rows and columns should not be equal)
 - maze format check is not comprehensive due to time restrictions and to keep things simple, 
-  but based on the idea implemented the solution it should be easily extended with more detailed validation.
+  but based on the idea implemented in the solution it should be easily extended with more detailed validation.
 - logging framework is not used for now (for production code it would be considered based on debugging / operation needs)
-
+- main is not provided, acceptance tests reading in the input file and verify the criteria based on it
+ 
+###Testing
+- `mvn test` to run unit and acceptance tests
