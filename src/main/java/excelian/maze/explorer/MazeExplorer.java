@@ -11,6 +11,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Thread safe implementation of a an explorer of the maze
+ */
 public class MazeExplorer implements Explorer {
 
     protected Maze maze;
@@ -29,7 +32,7 @@ public class MazeExplorer implements Explorer {
     }
 
     @Override
-    public final void moveForward() {
+    public synchronized final void moveForward() {
         ExplorerPosition newPosition = position.calculateMoveForwardPositionInMaze(maze);
         if (maze.whatsAt(newPosition.getCoordinate()).canBeExplored()) {
             this.movement.add(newPosition.getCoordinate());
@@ -41,43 +44,44 @@ public class MazeExplorer implements Explorer {
 
 
     @Override
-    public final void turnLeft() {
+    public synchronized final void turnLeft() {
         position = position.turnLeft();
     }
 
     @Override
-    public final void turnRight() {
+    public synchronized final void turnRight() {
         position = position.turnRight();
     }
 
     @Override
-    public final void turnTo(ClockWiseDirection direction) {
+    public synchronized final void turnTo(ClockWiseDirection direction) {
         position = position.withDirection(direction);
     }
 
     @Override
-    public final List<ClockWiseDirection> getPossibleDirections() {
+    public synchronized final List<ClockWiseDirection> getPossibleDirections() {
         return Arrays.stream(ClockWiseDirection.values())
                 .filter(canBeExplored())
                 .collect(Collectors.toList());
     }
 
     @Override
-    public final Optional<MazeStructure> whatsInFront() {
+    public synchronized final Optional<MazeStructure> whatsInFront() {
         return whatsInDirection(position.getDirection());
     }
 
     @Override
-    public final MazeStructure whatsAtMyLocation() {
+    public synchronized final MazeStructure whatsAtMyLocation() {
         return maze.whatsAt(position.getCoordinate());
     }
 
     @Override
-    public List<MazeCoordinate> getMovement() {
+    public synchronized List<MazeCoordinate> getMovement() {
         return new ArrayList<>(movement);
     }
 
-    public ExplorerPosition getPosition() {
+    @Override
+    public synchronized ExplorerPosition getPosition() {
         return position;
     }
 

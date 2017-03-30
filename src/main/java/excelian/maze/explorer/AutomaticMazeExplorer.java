@@ -74,7 +74,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
     }
 
     @Override
-    public Optional<List<MazeCoordinate>> searchWayOut() {
+    public synchronized Optional<List<MazeCoordinate>> searchWayOut() {
         pathFollowed.add(new Breadcrumb(getPossibleDirections()));
         boolean exitReached = findPathTillExit();
         if (exitReached) {
