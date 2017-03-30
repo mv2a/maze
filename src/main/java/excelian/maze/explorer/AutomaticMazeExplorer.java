@@ -54,9 +54,9 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
             if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
                 // Get the first direction
                 ClockWiseDirection direction = pathFollowed.peek().getPossibleDirections().remove(0);
-                MazeCoordinate nextField = calculateNextFieldToMove(getPosition().withDirection(direction));
+                ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateMoveForwardPositionInMaze(maze);
                 // TODO: make it more efficient than Olog(N)
-                if (getMovement().contains(nextField)) continue;
+                if (getMovement().contains(nextPosition.getCoordinate())) continue;
                 moveTo(direction);
                 pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
             } else {

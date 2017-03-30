@@ -31,19 +31,19 @@ public final class MazeCoordinate {
     }
 
     public MazeCoordinate toTheLeft() {
-        return new MazeCoordinate(x-1, y);
+        return new MazeCoordinate(x - 1, y);
     }
 
     public MazeCoordinate toTheRight() {
-        return new MazeCoordinate(x+1, y);
+        return new MazeCoordinate(x + 1, y);
     }
 
     public MazeCoordinate above() {
-        return new MazeCoordinate(x, y-1);
+        return new MazeCoordinate(x, y - 1);
     }
 
     public MazeCoordinate below() {
-        return new MazeCoordinate(x, y+1);
+        return new MazeCoordinate(x, y + 1);
     }
 
     @Override

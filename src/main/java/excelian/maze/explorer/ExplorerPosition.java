@@ -1,5 +1,6 @@
 package excelian.maze.explorer;
 
+import excelian.maze.model.Maze;
 import excelian.maze.model.MazeCoordinate;
 
 public class ExplorerPosition {
@@ -37,6 +38,26 @@ public class ExplorerPosition {
         return new ExplorerPosition(coordinate, direction.turnRight());
     }
 
+    public ExplorerPosition calculateMoveForwardPositionInMaze(Maze maze) {
+        switch (direction) {
+            case UP:
+                if (coordinate.getY() == 0) throw new FieldIsOutOfMazeBoundsException();
+                return withCoordinate(coordinate.above());
+            case DOWN:
+                if (coordinate.getY() == maze.getDimensionY() - 1)
+                    throw new FieldIsOutOfMazeBoundsException();
+                return withCoordinate(coordinate.below());
+            case LEFT:
+                if (coordinate.getX() == 0) throw new FieldIsOutOfMazeBoundsException();
+                return withCoordinate(coordinate.toTheLeft());
+            case RIGHT:
+                if (coordinate.getX() == maze.getDimensionX() - 1)
+                    throw new FieldIsOutOfMazeBoundsException();
+                return withCoordinate(coordinate.toTheRight());
+        }
+        throw new UnsupportedOperationException(String.format("Direction %s not supported!", direction));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,7 +67,6 @@ public class ExplorerPosition {
 
         if (!coordinate.equals(that.coordinate)) return false;
         return direction == that.direction;
-
     }
 
     @Override

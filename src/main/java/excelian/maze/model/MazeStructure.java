@@ -24,4 +24,8 @@ public enum MazeStructure {
         return structureFromChar.orElseThrow(() -> new IllegalArgumentException(String.format("Maze structure not recognised from '%s'!", ch)));
     }
 
+    public boolean canBeExplored() {
+        return this != WALL;
+    }
+
 }
