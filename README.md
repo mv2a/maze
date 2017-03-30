@@ -43,5 +43,3 @@ Acceptance Criteria:
  
 ## Testing
 - `mvn test` to run unit and acceptance tests
-
-Acceptance tests are using groovy and spock framework
