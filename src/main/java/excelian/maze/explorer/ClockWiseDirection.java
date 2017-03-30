@@ -15,4 +15,8 @@ public enum ClockWiseDirection {
         if (ordinal() == 0) return values()[values().length - 1];
         return values()[ordinal() - 1];
     }
+
+    public ClockWiseDirection opposite() {
+        return turnLeft().turnLeft();
+    }
 }

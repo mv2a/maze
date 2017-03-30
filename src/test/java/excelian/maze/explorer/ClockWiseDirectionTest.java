@@ -23,4 +23,13 @@ public class ClockWiseDirectionTest {
         assertThat(ClockWiseDirection.DOWN.turnRight(), is(ClockWiseDirection.LEFT));
         assertThat(ClockWiseDirection.LEFT.turnRight(), is(ClockWiseDirection.UP));
     }
+
+
+    @Test
+    public void oppositOfDirectionShouldBeCalculated() {
+        assertThat(ClockWiseDirection.UP.opposite(), is(ClockWiseDirection.DOWN));
+        assertThat(ClockWiseDirection.DOWN.opposite(), is(ClockWiseDirection.UP));
+        assertThat(ClockWiseDirection.LEFT.opposite(), is(ClockWiseDirection.RIGHT));
+        assertThat(ClockWiseDirection.RIGHT.opposite(), is(ClockWiseDirection.LEFT));
+    }
 }

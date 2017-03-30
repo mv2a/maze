@@ -35,9 +35,9 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
 
         expect: "The explorer should find the way out automatically"
 
-        def route = explorer.findWayOut()
+        def route = explorer.searchWayOut()
 
-        route.size() == [
+        route.get() == [
                 new MazeCoordinate(1, 1),
                 new MazeCoordinate(2, 1),
                 new MazeCoordinate(2, 2),

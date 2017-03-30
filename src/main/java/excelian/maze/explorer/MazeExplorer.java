@@ -21,6 +21,10 @@ public class MazeExplorer implements Explorer {
         this(maze, ClockWiseDirection.UP);
     }
 
+    protected void setLocation(ExplorerLocation location){
+        this.location = location;
+    }
+
     public MazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
         this.maze = maze;
         location = new ExplorerLocation(maze.getStartLocation(), startingDirection);

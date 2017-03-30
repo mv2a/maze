@@ -21,26 +21,25 @@ public interface Explorer {
     void turnTo(ClockWiseDirection direction);
 
     default void moveToLeft() {
-        turnTo(ClockWiseDirection.LEFT);
-        moveForward();
+        moveTo(ClockWiseDirection.LEFT);
     }
 
     default void moveToRight() {
-        turnTo(ClockWiseDirection.RIGHT);
-        moveForward();
+        moveTo(ClockWiseDirection.RIGHT);
     }
 
     default void moveToUp() {
-        turnTo(ClockWiseDirection.UP);
-        moveForward();
+        moveTo(ClockWiseDirection.UP);
     }
 
     default void moveToDown() {
-        turnTo(ClockWiseDirection.DOWN);
-        moveForward();
+        moveTo(ClockWiseDirection.DOWN);
     }
 
-
+    default void moveTo(ClockWiseDirection direction) {
+        turnTo(direction);
+        moveForward();
+    }
 
     List<ClockWiseDirection> getPossibleDirections();
 
