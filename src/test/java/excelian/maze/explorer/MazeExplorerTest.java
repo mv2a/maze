@@ -242,6 +242,17 @@ public class MazeExplorerTest {
         )));
     }
 
+    @Test
+    public void turnToShouldSetDirection() {
+        MazeExplorer explorer = new MazeExplorer(mazeMock, ClockWiseDirection.UP);
+        assertThat(explorer.getLocation().getDirection(), is(ClockWiseDirection.UP));
+
+        explorer.turnTo(ClockWiseDirection.DOWN);
+
+        assertThat(explorer.getLocation().getDirection(), is(ClockWiseDirection.DOWN));
+
+    }
+
     private void shouldMoveUpWhenFieldIs(MazeExplorer explorer, MazeStructure field) {
         when(mazeMock.whatsAt(startLocation.above())).thenReturn(field);
         explorer.moveForward();

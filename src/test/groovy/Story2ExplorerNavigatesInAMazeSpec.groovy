@@ -1,6 +1,7 @@
 import excelian.maze.explorer.ClockWiseDirection
+import excelian.maze.explorer.Explorer
 import excelian.maze.explorer.ExplorerLocation
-import excelian.maze.game.GameContext
+import excelian.maze.explorer.MazeExplorer
 import excelian.maze.model.MazeCoordinate
 import excelian.maze.model.MazeImpl
 import excelian.maze.model.MazeStructure
@@ -44,42 +45,41 @@ class Story2ExplorerNavigatesInAMazeSpec extends spock.lang.Specification {
         String mazeStr = this.getClass().getResource(fileName).text
         MazeImpl maze = new MazeImpl(mazeStr)
 
-        GameContext game = new GameContext()
-        game.startExploring(maze)
+        Explorer explorer = new MazeExplorer(maze);
 
         expect: "The explorer should be in the starting location facing up"
-        game.location == new ExplorerLocation(new MazeCoordinate(3, 3), ClockWiseDirection.UP)
-        game.whereAmI() == MazeStructure.START
+        explorer.location == new ExplorerLocation(new MazeCoordinate(3, 3), ClockWiseDirection.UP)
+        explorer.whereAmI() == MazeStructure.START
 
         and: "The explorer should follow the way out"
-        game.turnRight()
-        game.moveForward(8)
-        game.turnRight()
-        game.moveForward(3)
-        game.turnRight()
-        game.moveForward(5)
-        game.turnLeft()
-        game.moveForward(3)
-        game.turnRight()
-        game.moveForward(3)
-        game.turnLeft()
-        game.moveForward(3)
-        game.turnLeft()
-        game.moveForward(8)
-        game.turnRight()
-        game.moveForward(1)
-        game.turnLeft()
-        game.moveForward(2)
-        game.turnLeft()
-        game.moveForward(12)
-        game.turnLeft()
-        game.moveForward(12)
-        game.turnLeft()
-        game.moveForward(13)
+        explorer.turnRight()
+        explorer.moveForward(8)
+        explorer.turnRight()
+        explorer.moveForward(3)
+        explorer.turnRight()
+        explorer.moveForward(5)
+        explorer.turnLeft()
+        explorer.moveForward(3)
+        explorer.turnRight()
+        explorer.moveForward(3)
+        explorer.turnLeft()
+        explorer.moveForward(3)
+        explorer.turnLeft()
+        explorer.moveForward(8)
+        explorer.turnRight()
+        explorer.moveForward(1)
+        explorer.turnLeft()
+        explorer.moveForward(2)
+        explorer.turnLeft()
+        explorer.moveForward(12)
+        explorer.turnLeft()
+        explorer.moveForward(12)
+        explorer.turnLeft()
+        explorer.moveForward(13)
 
-        game.whereAmI() == MazeStructure.EXIT
+        explorer.whereAmI() == MazeStructure.EXIT
 
-        game.movement.size() == 74
+        explorer.movement.size() == 74
     }
 
 

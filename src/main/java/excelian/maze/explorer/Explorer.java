@@ -8,19 +8,45 @@ import java.util.Optional;
 
 public interface Explorer {
 
-	void moveForward();
+    void moveForward();
 
-	void turnLeft();
+    default void moveForward(int nrOfFields) {
+        for (int i = 0; i < nrOfFields; i++) moveForward();
+    }
 
-	void turnRight();
+    void turnLeft();
 
-	List<ClockWiseDirection> getPossibleDirections();
+    void turnRight();
+
+    void turnTo(ClockWiseDirection direction);
+
+    default void moveToLeft() {
+        turnTo(ClockWiseDirection.LEFT);
+        moveForward();
+    }
+
+    default void moveToRight() {
+        turnTo(ClockWiseDirection.RIGHT);
+        moveForward();
+    }
+
+    default void moveToUp() {
+        turnTo(ClockWiseDirection.UP);
+        moveForward();
+    }
+
+    default void moveToDown() {
+        turnTo(ClockWiseDirection.DOWN);
+        moveForward();
+    }
+
+    List<ClockWiseDirection> getPossibleDirections();
 
     Optional<MazeStructure> whatsInFront();
 
     MazeStructure whereAmI();
 
-	List<MazeCoordinate> getMovement();
+    List<MazeCoordinate> getMovement();
 
     ExplorerLocation getLocation();
 
