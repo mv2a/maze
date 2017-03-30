@@ -27,9 +27,9 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
         maze.numberOfEmptySpaces == nrOfSpaces
 
         where:
-        fileName                | nrOfWalls | nrOfSpaces
-        "/ExampleTestMaze1.txt" | 149       | 74
-        "/ExampleTestMaze2.txt" | 12        | 2
+        fileName         | nrOfWalls | nrOfSpaces
+        "/TestMaze1.txt" | 149       | 74
+        "/TestMaze2.txt" | 12        | 2
     }
 
     // After a maze has been created I should be able to put in a coordinate and know what exists at that point.
@@ -43,11 +43,11 @@ class Story1MazeInitializationAcceptanceSpec extends spock.lang.Specification {
         maze.whatsAt(coordinate) == whatShouldBeThere
 
         where:
-        fileName                | coordinate                | whatShouldBeThere
-        "/ExampleTestMaze1.txt" | new MazeCoordinate(0, 0)  | MazeStructure.WALL
-        "/ExampleTestMaze1.txt" | new MazeCoordinate(1, 1)  | MazeStructure.SPACE
-        "/ExampleTestMaze1.txt" | new MazeCoordinate(3, 3)  | MazeStructure.START
-        "/ExampleTestMaze1.txt" | new MazeCoordinate(1, 14) | MazeStructure.EXIT
+        fileName         | coordinate                | whatShouldBeThere
+        "/TestMaze1.txt" | new MazeCoordinate(0, 0)  | MazeStructure.WALL
+        "/TestMaze1.txt" | new MazeCoordinate(1, 1)  | MazeStructure.SPACE
+        "/TestMaze1.txt"     | new MazeCoordinate(3, 3)  | MazeStructure.START
+        "/TestMaze1.txt"     | new MazeCoordinate(1, 14) | MazeStructure.EXIT
     }
 
 

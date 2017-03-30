@@ -10,18 +10,18 @@ import java.util.Optional;
 import java.util.Stack;
 
 
-class Field {
+class Breadcrumb {
     private Optional<ClockWiseDirection> cameFrom;
     private List<ClockWiseDirection> possibleDirections;
 
-    public Field(ClockWiseDirection cameFrom, List<ClockWiseDirection> possibleDirections) {
+    public Breadcrumb(ClockWiseDirection cameFrom, List<ClockWiseDirection> possibleDirections) {
         this.cameFrom = Optional.of(cameFrom);
         this.possibleDirections = new ArrayList(possibleDirections);
         this.possibleDirections.remove(cameFrom);
     }
 
 
-    public Field(List<ClockWiseDirection> possibleDirections) {
+    public Breadcrumb(List<ClockWiseDirection> possibleDirections) {
         this.cameFrom = Optional.empty();
         this.possibleDirections = new ArrayList(possibleDirections);
         this.possibleDirections.remove(cameFrom);
@@ -35,8 +35,8 @@ class Field {
     public List<ClockWiseDirection> getPossibleDirections() {
         return possibleDirections;
     }
-}
 
+}
 
 public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExplorer {
 
@@ -48,7 +48,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
         super(maze, startingDirection);
     }
 
-    private Stack<Field> pathFollowed = new Stack<>();
+    private Stack<Breadcrumb> pathFollowed = new Stack<>();
 
     private boolean findPathTillExit() {
         while (!pathFollowed.isEmpty()) {
@@ -56,18 +56,22 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
                 return true;
             }
             if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
+                // Get the first direction
                 ClockWiseDirection direction = pathFollowed.peek().getPossibleDirections().remove(0);
                 MazeCoordinate nextField = calculateNextFieldToMove(direction);
+                // TODO: make it more efficient than Olog(N)
                 if (getMovement().contains(nextField)) continue;
                 moveTo(direction);
-                pathFollowed.add(new Field(direction.opposite(), getPossibleDirections()));
+                pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
             } else {
                 // move back till there is a possible crossing
-                Field previousField;
+                Breadcrumb previousBreadcrumb;
                 do {
-                    previousField = pathFollowed.pop();
-                    moveTo(previousField.getCameFrom().get());
-                } while (!previousField.getPossibleDirections().isEmpty());
+                    previousBreadcrumb = pathFollowed.pop();
+                    if(previousBreadcrumb.getCameFrom().isPresent()){
+                        moveTo(previousBreadcrumb.getCameFrom().get());
+                    }
+                } while (!previousBreadcrumb.getPossibleDirections().isEmpty());
             }
         }
         return false;
@@ -75,7 +79,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
     @Override
     public Optional<List<MazeCoordinate>> searchWayOut() {
-        pathFollowed.add(new Field(getPossibleDirections()));
+        pathFollowed.add(new Breadcrumb(getPossibleDirections()));
         boolean exitReached = findPathTillExit();
         if (exitReached) {
             return Optional.of(getMovement());

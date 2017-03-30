@@ -26,8 +26,8 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         XXFX
      */
 
-    def "The example maze in file ExampleTestMaze2.txt should be explored"() {
-        def fileName = "/ExampleTestMaze2.txt"
+    def "The example maze in file TestMaze2.txt should be explored"() {
+        def fileName = "/TestMaze2.txt"
 
         given:
         "The example maze in file '#fileName' is created"
@@ -73,8 +73,8 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         XFXXXXXXXXXXXXX
     */
 
-    def "The example maze in file ExampleTestMaze1.txt should be explored"() {
-        def fileName = "/ExampleTestMaze1.txt"
+    def "The example maze in file TestMaze1.txt should be explored"() {
+        def fileName = "/TestMaze1.txt"
 
         given:
         "The example maze in file '#fileName' is created"
