@@ -65,7 +65,7 @@ public class MazeExplorerTest {
         assertThatThrownBy(() ->
                 explorer.moveForward()
         ).isInstanceOf(MovementBlockedException.class)
-                .hasMessageContaining("Movement is blocked!");
+                .hasMessageContaining("Movement to location MazeCoordinate{x=1, y=0} is blocked!");
     }
 
     @Test

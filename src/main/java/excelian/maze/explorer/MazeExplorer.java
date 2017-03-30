@@ -21,10 +21,6 @@ public class MazeExplorer implements Explorer {
         this(maze, ClockWiseDirection.UP);
     }
 
-    protected void setLocation(ExplorerLocation location){
-        this.location = location;
-    }
-
     public MazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
         this.maze = maze;
         location = new ExplorerLocation(maze.getStartLocation(), startingDirection);
@@ -45,11 +41,11 @@ public class MazeExplorer implements Explorer {
             this.movement.add(nextFieldToMove);
             this.location = location.withCoordinate(nextFieldToMove);
         } else {
-            throw new MovementBlockedException();
+            throw new MovementBlockedException(nextFieldToMove);
         }
     }
 
-    private MazeCoordinate calculateNextFieldToMove(ClockWiseDirection direction) {
+    protected MazeCoordinate calculateNextFieldToMove(ClockWiseDirection direction) {
         switch (direction) {
             case UP:
                 if (location.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeBoundsException();
