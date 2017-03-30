@@ -17,13 +17,14 @@ import static org.mockito.Mockito.when;
 
 public class MazeExplorerTest {
 
-    public static final int mazeDimension = 10;
-    MazeCoordinate bottomRightCorner = new MazeCoordinate(mazeDimension - 1, mazeDimension - 1);
-    MazeCoordinate topLeftCorner = new MazeCoordinate(0, 0);
+    private final int mazeDimension = 10;
+
+    private final MazeCoordinate bottomRightCorner = new MazeCoordinate(mazeDimension - 1, mazeDimension - 1);
+    private final MazeCoordinate topLeftCorner = new MazeCoordinate(0, 0);
 
     private final Maze mazeMock = mock(Maze.class);
 
-    private MazeCoordinate startLocation = new MazeCoordinate(1, 1);
+    private final MazeCoordinate startLocation = new MazeCoordinate(1, 1);
 
 
     @Before

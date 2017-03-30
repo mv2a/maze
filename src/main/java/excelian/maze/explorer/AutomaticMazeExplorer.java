@@ -47,9 +47,6 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
     private boolean findPathTillExit() {
         while (!pathFollowed.isEmpty()) {
-            if (whatsAtMyLocation() == MazeStructure.EXIT) {
-                return true;
-            }
             if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
                 // Get the first direction
                 HeadingDirectionClockWise direction = pathFollowed.peek().getPossibleDirections().remove(0);
@@ -57,6 +54,9 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
                 // TODO: make it more efficient than Olog(N)
                 if (getMovement().contains(nextPosition.getCoordinate())) continue;
                 moveTo(direction);
+                if (whatsAtMyLocation() == MazeStructure.EXIT) {
+                    return true;
+                }
                 pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
             } else {
                 // move back till there is a possible crossing
