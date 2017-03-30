@@ -1,5 +1,9 @@
-package excelian.maze;
+package excelian.maze.game;
 
+import excelian.maze.explorer.ClockWiseDirection;
+import excelian.maze.explorer.Explorer;
+import excelian.maze.explorer.ExplorerLocation;
+import excelian.maze.explorer.MazeExplorer;
 import excelian.maze.model.Maze;
 import excelian.maze.model.MazeCoordinate;
 import excelian.maze.model.MazeStructure;
@@ -9,59 +13,59 @@ import java.util.Optional;
 
 public class GameContext implements Explorer {
     private static final Explorer INACTIVE_EXPLORER = new InactiveExplorer();
-    Explorer explorerState = INACTIVE_EXPLORER;
+    Explorer explorer = INACTIVE_EXPLORER;
 
     public final void startExploring(Maze maze) {
-        explorerState = new MazeExplorer(maze, ClockWiseDirection.UP);
+        explorer = new MazeExplorer(maze, ClockWiseDirection.UP);
     }
 
     public final void finishExploring() {
-        explorerState = INACTIVE_EXPLORER;
+        explorer = INACTIVE_EXPLORER;
     }
 
     @Override
     public void moveForward() {
-        explorerState.moveForward();
+        explorer.moveForward();
     }
 
     public void moveForward(int nrOfFields) {
         for (int i = 0; i < nrOfFields; i++) {
-            explorerState.moveForward();
+            explorer.moveForward();
         }
     }
 
     @Override
     public void turnLeft() {
-        explorerState.turnLeft();
+        explorer.turnLeft();
     }
 
     @Override
     public void turnRight() {
-        explorerState.turnRight();
+        explorer.turnRight();
     }
 
     @Override
     public MazeStructure whereAmI() {
-        return explorerState.whereAmI();
+        return explorer.whereAmI();
     }
 
     @Override
     public List<ClockWiseDirection> getPossibleDirections() {
-        return explorerState.getPossibleDirections();
+        return explorer.getPossibleDirections();
     }
 
     @Override
     public Optional<MazeStructure> whatsInFront() {
-        return explorerState.whatsInFront();
+        return explorer.whatsInFront();
     }
 
     @Override
     public List<MazeCoordinate> getMovement() {
-        return explorerState.getMovement();
+        return explorer.getMovement();
     }
 
     @Override
     public ExplorerLocation getLocation() {
-        return explorerState.getLocation();
+        return explorer.getLocation();
     }
 }

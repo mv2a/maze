@@ -1,6 +1,6 @@
-import excelian.maze.ClockWiseDirection
-import excelian.maze.ExplorerLocation
-import excelian.maze.GameContext
+import excelian.maze.explorer.ClockWiseDirection
+import excelian.maze.explorer.ExplorerLocation
+import excelian.maze.game.GameContext
 import excelian.maze.model.MazeCoordinate
 import excelian.maze.model.MazeImpl
 import excelian.maze.model.MazeStructure

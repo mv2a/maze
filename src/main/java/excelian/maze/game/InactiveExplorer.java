@@ -1,5 +1,8 @@
-package excelian.maze;
+package excelian.maze.game;
 
+import excelian.maze.explorer.ClockWiseDirection;
+import excelian.maze.explorer.Explorer;
+import excelian.maze.explorer.ExplorerLocation;
 import excelian.maze.model.MazeCoordinate;
 import excelian.maze.model.MazeStructure;
 

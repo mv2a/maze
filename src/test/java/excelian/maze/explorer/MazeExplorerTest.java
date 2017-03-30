@@ -1,4 +1,4 @@
-package excelian.maze;
+package excelian.maze.explorer;
 
 import excelian.maze.model.Maze;
 import excelian.maze.model.MazeCoordinate;

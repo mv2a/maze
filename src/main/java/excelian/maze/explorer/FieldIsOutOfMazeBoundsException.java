@@ -1,4 +1,4 @@
-package excelian.maze;
+package excelian.maze.explorer;
 
 public class FieldIsOutOfMazeBoundsException extends RuntimeException {
     public FieldIsOutOfMazeBoundsException() {

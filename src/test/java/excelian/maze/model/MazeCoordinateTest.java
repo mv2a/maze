@@ -1,6 +1,5 @@
-package excelian.maze;
+package excelian.maze.model;
 
-import excelian.maze.model.MazeCoordinate;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

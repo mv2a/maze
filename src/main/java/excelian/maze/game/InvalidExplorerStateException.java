@@ -1,7 +1,7 @@
-package excelian.maze;
+package excelian.maze.game;
 
 public class InvalidExplorerStateException extends RuntimeException {
     public InvalidExplorerStateException() {
-        super("Explorer not started exploring yet!");
+        super("Exploring not started yet!");
     }
 }
