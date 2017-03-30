@@ -39,7 +39,7 @@ Acceptance Criteria:
 - maze format check is not comprehensive due to time restrictions and to keep things simple, 
   but based on the idea implemented in the solution it should be easily extended with more detailed validation.
 - logging framework is not used for now (for production code it would be considered based on debugging / operation needs)
-- main is not provided, acceptance tests reading in the input file and verify the criteria based on it
+- `main` method is not provided, acceptance tests reading in the input file and verify the criteria based on it
  
 ## Testing
 - `mvn test` to run unit and acceptance tests
