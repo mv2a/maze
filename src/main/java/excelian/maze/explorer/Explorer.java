@@ -33,7 +33,7 @@ public interface Explorer {
 
     List<MazeCoordinate> getMovement();
 
-    ExplorerLocation getLocation();
+    ExplorerPosition getPosition();
 
 
 }

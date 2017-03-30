@@ -1,6 +1,6 @@
 import excelian.maze.explorer.ClockWiseDirection
 import excelian.maze.explorer.Explorer
-import excelian.maze.explorer.ExplorerLocation
+import excelian.maze.explorer.ExplorerPosition
 import excelian.maze.explorer.MazeExplorer
 import excelian.maze.model.MazeCoordinate
 import excelian.maze.model.MazeImpl
@@ -37,7 +37,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         Explorer explorer = new MazeExplorer(maze);
 
         expect: "The explorer should be in the starting location facing up"
-        explorer.location == new ExplorerLocation(new MazeCoordinate(1, 1), ClockWiseDirection.UP)
+        explorer.position == new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.UP)
         explorer.whatsAtMyLocation() == MazeStructure.START
 
         and: "The explorer should follow the way out"
@@ -84,7 +84,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         Explorer explorer = new MazeExplorer(maze);
 
         expect: "The explorer should be in the starting location facing up"
-        explorer.location == new ExplorerLocation(new MazeCoordinate(3, 3), ClockWiseDirection.UP)
+        explorer.position == new ExplorerPosition(new MazeCoordinate(3, 3), ClockWiseDirection.UP)
         explorer.whatsAtMyLocation() == MazeStructure.START
 
         and: "The explorer should follow the way out"

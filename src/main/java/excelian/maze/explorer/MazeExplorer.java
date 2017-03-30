@@ -15,7 +15,7 @@ public class MazeExplorer implements Explorer {
 
     private Maze maze;
     private List<MazeCoordinate> movement;
-    private ExplorerLocation location;
+    private ExplorerPosition position;
 
     public MazeExplorer(Maze maze) {
         this(maze, ClockWiseDirection.UP);
@@ -23,7 +23,7 @@ public class MazeExplorer implements Explorer {
 
     public MazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
         this.maze = maze;
-        location = new ExplorerLocation(maze.getStartLocation(), startingDirection);
+        position = new ExplorerPosition(maze.getStartLocation(), startingDirection);
         this.movement = new ArrayList<>();
         this.movement.add(maze.getStartLocation());
     }
@@ -35,44 +35,43 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public void moveForward() {
-
-        MazeCoordinate nextFieldToMove = calculateNextFieldToMove(location.getDirection());
+        MazeCoordinate nextFieldToMove = calculateNextFieldToMove(position);
         if (isValidFieldToMoveTo(maze.whatsAt(nextFieldToMove))) {
             this.movement.add(nextFieldToMove);
-            this.location = location.withCoordinate(nextFieldToMove);
+            this.position = position.withCoordinate(nextFieldToMove);
         } else {
             throw new MovementBlockedException(nextFieldToMove);
         }
     }
 
-    protected MazeCoordinate calculateNextFieldToMove(ClockWiseDirection direction) {
-        switch (direction) {
+    protected MazeCoordinate calculateNextFieldToMove(ExplorerPosition el) {
+        switch (el.getDirection()) {
             case UP:
-                if (location.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeBoundsException();
-                return location.getCoordinate().above();
+                if (el.getCoordinate().getY() == 0) throw new FieldIsOutOfMazeBoundsException();
+                return el.getCoordinate().above();
             case DOWN:
-                if (location.getCoordinate().getY() == maze.getDimensionY() - 1)
+                if (el.getCoordinate().getY() == maze.getDimensionY() - 1)
                     throw new FieldIsOutOfMazeBoundsException();
-                return location.getCoordinate().below();
+                return el.getCoordinate().below();
             case LEFT:
-                if (location.getCoordinate().getX() == 0) throw new FieldIsOutOfMazeBoundsException();
-                return location.getCoordinate().toTheLeft();
+                if (el.getCoordinate().getX() == 0) throw new FieldIsOutOfMazeBoundsException();
+                return el.getCoordinate().toTheLeft();
             case RIGHT:
-                if (location.getCoordinate().getX() == maze.getDimensionX() - 1)
+                if (el.getCoordinate().getX() == maze.getDimensionX() - 1)
                     throw new FieldIsOutOfMazeBoundsException();
-                return location.getCoordinate().toTheRight();
+                return el.getCoordinate().toTheRight();
         }
-        throw new UnsupportedOperationException(String.format("Direction %s not supported!", location.getDirection()));
+        throw new UnsupportedOperationException(String.format("Direction %s not supported!", el.getDirection()));
     }
 
     @Override
     public void turnLeft() {
-        location = location.turnLeft();
+        position = position.turnLeft();
     }
 
     @Override
     public void turnRight() {
-        location = location.turnRight();
+        position = position.turnRight();
     }
 
     private Predicate<ClockWiseDirection> isValidFieldToMoveTo() {
@@ -92,7 +91,7 @@ public class MazeExplorer implements Explorer {
 
     private Optional<MazeStructure> whatsInDirection(ClockWiseDirection direction) {
         try {
-            MazeCoordinate nextFieldToMove = calculateNextFieldToMove(direction);
+            MazeCoordinate nextFieldToMove = calculateNextFieldToMove(position.withDirection(direction));
             return Optional.of(maze.whatsAt(nextFieldToMove));
         } catch (FieldIsOutOfMazeBoundsException ex) {
             return Optional.empty();
@@ -101,12 +100,12 @@ public class MazeExplorer implements Explorer {
 
     @Override
     public Optional<MazeStructure> whatsInFront() {
-        return whatsInDirection(location.getDirection());
+        return whatsInDirection(position.getDirection());
     }
 
     @Override
     public MazeStructure whatsAtMyLocation() {
-        return maze.whatsAt(location.getCoordinate());
+        return maze.whatsAt(position.getCoordinate());
     }
 
     @Override
@@ -114,13 +113,12 @@ public class MazeExplorer implements Explorer {
         return movement;
     }
 
-    @Override
-    public ExplorerLocation getLocation() {
-        return location;
+    public ExplorerPosition getPosition() {
+        return position;
     }
 
     @Override
     public void turnTo(ClockWiseDirection direction) {
-        location = location.withDirection(direction);
+        position = position.withDirection(direction);
     }
 }

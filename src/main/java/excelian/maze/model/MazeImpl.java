@@ -3,9 +3,9 @@ package excelian.maze.model;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
-public class MazeImpl implements Maze {
+public final class MazeImpl implements Maze {
 
-    private String[] mazeData;
+    private final String[] mazeData;
 
     private final int dimensionX;
 

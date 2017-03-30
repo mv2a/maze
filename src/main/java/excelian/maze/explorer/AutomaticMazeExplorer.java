@@ -44,10 +44,6 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
         super(maze);
     }
 
-    public AutomaticMazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
-        super(maze, startingDirection);
-    }
-
     private Stack<Breadcrumb> pathFollowed = new Stack<>();
 
     private boolean findPathTillExit() {
@@ -58,7 +54,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
             if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
                 // Get the first direction
                 ClockWiseDirection direction = pathFollowed.peek().getPossibleDirections().remove(0);
-                MazeCoordinate nextField = calculateNextFieldToMove(direction);
+                MazeCoordinate nextField = calculateNextFieldToMove(getPosition().withDirection(direction));
                 // TODO: make it more efficient than Olog(N)
                 if (getMovement().contains(nextField)) continue;
                 moveTo(direction);
@@ -68,7 +64,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
                 Breadcrumb previousBreadcrumb;
                 do {
                     previousBreadcrumb = pathFollowed.pop();
-                    if(previousBreadcrumb.getCameFrom().isPresent()){
+                    if (previousBreadcrumb.getCameFrom().isPresent()) {
                         moveTo(previousBreadcrumb.getCameFrom().get());
                     }
                 } while (!previousBreadcrumb.getPossibleDirections().isEmpty());

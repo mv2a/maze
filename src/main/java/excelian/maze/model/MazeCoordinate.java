@@ -2,7 +2,7 @@ package excelian.maze.model;
 
 import com.google.common.base.Preconditions;
 
-public class MazeCoordinate {
+public final class MazeCoordinate {
     private final int x;
 
     private final int y;

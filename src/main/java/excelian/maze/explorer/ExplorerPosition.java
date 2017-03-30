@@ -2,13 +2,13 @@ package excelian.maze.explorer;
 
 import excelian.maze.model.MazeCoordinate;
 
-public class ExplorerLocation {
+public class ExplorerPosition {
 
     private MazeCoordinate coordinate;
 
     private ClockWiseDirection direction;
 
-    public ExplorerLocation(MazeCoordinate location, ClockWiseDirection direction) {
+    public ExplorerPosition(MazeCoordinate location, ClockWiseDirection direction) {
         this.coordinate = location;
         this.direction = direction;
     }
@@ -21,20 +21,20 @@ public class ExplorerLocation {
         return direction;
     }
 
-    public ExplorerLocation withCoordinate(MazeCoordinate newCoordinate) {
-        return new ExplorerLocation(newCoordinate, direction);
+    public ExplorerPosition withCoordinate(MazeCoordinate newCoordinate) {
+        return new ExplorerPosition(newCoordinate, direction);
     }
 
-    public ExplorerLocation withDirection(ClockWiseDirection newDirection) {
-        return new ExplorerLocation(coordinate, newDirection);
+    public ExplorerPosition withDirection(ClockWiseDirection newDirection) {
+        return new ExplorerPosition(coordinate, newDirection);
     }
 
-    public ExplorerLocation turnLeft() {
-        return new ExplorerLocation(coordinate, direction.turnLeft());
+    public ExplorerPosition turnLeft() {
+        return new ExplorerPosition(coordinate, direction.turnLeft());
     }
 
-    public ExplorerLocation turnRight() {
-        return new ExplorerLocation(coordinate, direction.turnRight());
+    public ExplorerPosition turnRight() {
+        return new ExplorerPosition(coordinate, direction.turnRight());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ExplorerLocation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExplorerLocation that = (ExplorerLocation) o;
+        ExplorerPosition that = (ExplorerPosition) o;
 
         if (!coordinate.equals(that.coordinate)) return false;
         return direction == that.direction;
@@ -58,7 +58,7 @@ public class ExplorerLocation {
 
     @Override
     public String toString() {
-        return "ExplorerLocation{" +
+        return "ExplorerPosition{" +
                 "coordinate=" + coordinate +
                 ", direction=" + direction +
                 '}';
