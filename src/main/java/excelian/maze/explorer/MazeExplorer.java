@@ -31,10 +31,15 @@ public class MazeExplorer implements Explorer {
         this.movement.add(maze.getStartLocation());
     }
 
+    protected void movingToHook(MazeCoordinate mazeCoordinate) {
+        // do nothing here, provide it for extendibility
+    }
+
     @Override
     public synchronized final void moveForward() {
         ExplorerPosition newPosition = position.calculateMoveForwardPositionInMaze(maze);
         if (maze.whatsAt(newPosition.getCoordinate()).canBeExplored()) {
+            movingToHook(newPosition.getCoordinate());
             this.movement.add(newPosition.getCoordinate());
             this.position = newPosition;
         } else {

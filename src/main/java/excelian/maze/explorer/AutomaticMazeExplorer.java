@@ -4,11 +4,7 @@ import excelian.maze.model.Maze;
 import excelian.maze.model.MazeCoordinate;
 import excelian.maze.model.MazeStructure;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Stack;
-
+import java.util.*;
 
 class Breadcrumb {
     private Optional<HeadingDirectionClockWise> cameFrom;
@@ -41,9 +37,18 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
     public AutomaticMazeExplorer(Maze maze) {
         super(maze);
+        movingToHook(maze.getStartLocation());
     }
 
     private Stack<Breadcrumb> pathFollowed = new Stack<>();
+
+    private Set<MazeCoordinate> visitedCoordinates = new HashSet<>();
+
+    @Override
+    protected void movingToHook(MazeCoordinate coordinate) {
+        // track visited coordinates in a hashset for fast constant time lookup
+        visitedCoordinates.add(coordinate);
+    }
 
     private boolean findPathTillExit() {
         while (!pathFollowed.isEmpty()) {
@@ -51,8 +56,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
                 // Get the first direction
                 HeadingDirectionClockWise direction = pathFollowed.peek().getPossibleDirections().remove(0);
                 ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateMoveForwardPositionInMaze(maze);
-                // TODO: make it more efficient than Olog(N)
-                if (getMovement().contains(nextPosition.getCoordinate())) continue;
+                if (visitedCoordinates.contains(nextPosition.getCoordinate())) continue;
                 moveTo(direction);
                 if (whatsAtMyLocation() == MazeStructure.EXIT) {
                     return true;
