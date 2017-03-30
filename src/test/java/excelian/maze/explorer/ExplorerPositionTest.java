@@ -13,60 +13,60 @@ public class ExplorerPositionTest {
 
     @Before
     public void setUp() {
-        position = new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.UP);
+        position = new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP);
     }
 
     @Test
     public void multipleTurnLeftsShouldDoAFullTurnBackToInitialState() {
         ExplorerPosition newPosition = position.turnLeft();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.LEFT)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.LEFT)));
 
         newPosition = newPosition.turnLeft();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.DOWN)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.DOWN)));
 
         newPosition = newPosition.turnLeft();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.RIGHT)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.RIGHT)));
 
         newPosition = newPosition.turnLeft();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.UP)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP)));
     }
 
     @Test
     public void multipleTurnRightsShouldDoAFullTurnBackToInitialState() {
         ExplorerPosition newPosition = position.turnRight();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.RIGHT)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.RIGHT)));
 
         newPosition = newPosition.turnRight();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.DOWN)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.DOWN)));
 
         newPosition = newPosition.turnRight();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.LEFT)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.LEFT)));
 
         newPosition = newPosition.turnRight();
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.UP)));
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP)));
     }
 
     @Test
     public void withDirectionShouldSetNewDirectionToDown() {
-        ExplorerPosition newPosition = position.withDirection(ClockWiseDirection.DOWN);
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.DOWN)));
+        ExplorerPosition newPosition = position.withDirection(HeadingDirectionClockWise.DOWN);
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.DOWN)));
     }
 
     @Test
     public void withDirectionShouldSetNewDirectionToLeft() {
-        ExplorerPosition newPosition = position.withDirection(ClockWiseDirection.LEFT);
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.LEFT)));
+        ExplorerPosition newPosition = position.withDirection(HeadingDirectionClockWise.LEFT);
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.LEFT)));
     }
 
     @Test
     public void withDirectionShouldSetNewDirectionToRight() {
-        ExplorerPosition newPosition = position.withDirection(ClockWiseDirection.RIGHT);
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.RIGHT)));
+        ExplorerPosition newPosition = position.withDirection(HeadingDirectionClockWise.RIGHT);
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.RIGHT)));
     }
 
     @Test
     public void withDirectionShouldSetNewDirectionToUP() {
-        ExplorerPosition newPosition = position.withDirection(ClockWiseDirection.UP);
-        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), ClockWiseDirection.UP)));
+        ExplorerPosition newPosition = position.withDirection(HeadingDirectionClockWise.UP);
+        assertThat(newPosition, is(new ExplorerPosition(new MazeCoordinate(1, 1), HeadingDirectionClockWise.UP)));
     }
 }

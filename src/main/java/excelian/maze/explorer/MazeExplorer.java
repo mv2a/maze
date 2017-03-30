@@ -21,10 +21,10 @@ public class MazeExplorer implements Explorer {
     private ExplorerPosition position;
 
     public MazeExplorer(Maze maze) {
-        this(maze, ClockWiseDirection.UP);
+        this(maze, HeadingDirectionClockWise.UP);
     }
 
-    public MazeExplorer(Maze maze, ClockWiseDirection startingDirection) {
+    public MazeExplorer(Maze maze, HeadingDirectionClockWise startingDirection) {
         this.maze = maze;
         position = new ExplorerPosition(maze.getStartLocation(), startingDirection);
         this.movement = new ArrayList<>();
@@ -42,7 +42,6 @@ public class MazeExplorer implements Explorer {
         }
     }
 
-
     @Override
     public synchronized final void turnLeft() {
         position = position.turnLeft();
@@ -54,13 +53,13 @@ public class MazeExplorer implements Explorer {
     }
 
     @Override
-    public synchronized final void turnTo(ClockWiseDirection direction) {
+    public synchronized final void turnTo(HeadingDirectionClockWise direction) {
         position = position.withDirection(direction);
     }
 
     @Override
-    public synchronized final List<ClockWiseDirection> getPossibleDirections() {
-        return Arrays.stream(ClockWiseDirection.values())
+    public synchronized final List<HeadingDirectionClockWise> getPossibleDirections() {
+        return Arrays.stream(HeadingDirectionClockWise.values())
                 .filter(canBeExplored())
                 .collect(Collectors.toList());
     }
@@ -85,14 +84,14 @@ public class MazeExplorer implements Explorer {
         return position;
     }
 
-    private Predicate<ClockWiseDirection> canBeExplored() {
+    private Predicate<HeadingDirectionClockWise> canBeExplored() {
         return d -> {
             Optional<MazeStructure> ms = whatsInDirection(d);
             return ms.isPresent() && ms.get().canBeExplored();
         };
     }
 
-    private Optional<MazeStructure> whatsInDirection(ClockWiseDirection direction) {
+    private Optional<MazeStructure> whatsInDirection(HeadingDirectionClockWise direction) {
         try {
             ExplorerPosition newPosition = position.withDirection(direction).calculateMoveForwardPositionInMaze(maze);
             return Optional.of(maze.whatsAt(newPosition.getCoordinate()));

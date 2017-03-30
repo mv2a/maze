@@ -7,9 +7,9 @@ public class ExplorerPosition {
 
     private MazeCoordinate coordinate;
 
-    private ClockWiseDirection direction;
+    private HeadingDirectionClockWise direction;
 
-    public ExplorerPosition(MazeCoordinate location, ClockWiseDirection direction) {
+    public ExplorerPosition(MazeCoordinate location, HeadingDirectionClockWise direction) {
         this.coordinate = location;
         this.direction = direction;
     }
@@ -18,7 +18,7 @@ public class ExplorerPosition {
         return coordinate;
     }
 
-    public ClockWiseDirection getDirection() {
+    public HeadingDirectionClockWise getDirection() {
         return direction;
     }
 
@@ -26,7 +26,7 @@ public class ExplorerPosition {
         return new ExplorerPosition(newCoordinate, direction);
     }
 
-    public ExplorerPosition withDirection(ClockWiseDirection newDirection) {
+    public ExplorerPosition withDirection(HeadingDirectionClockWise newDirection) {
         return new ExplorerPosition(coordinate, newDirection);
     }
 

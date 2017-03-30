@@ -11,28 +11,27 @@ import java.util.Stack;
 
 
 class Breadcrumb {
-    private Optional<ClockWiseDirection> cameFrom;
-    private List<ClockWiseDirection> possibleDirections;
+    private Optional<HeadingDirectionClockWise> cameFrom;
+    private List<HeadingDirectionClockWise> possibleDirections;
 
-    public Breadcrumb(ClockWiseDirection cameFrom, List<ClockWiseDirection> possibleDirections) {
+    public Breadcrumb(HeadingDirectionClockWise cameFrom, List<HeadingDirectionClockWise> possibleDirections) {
         this.cameFrom = Optional.of(cameFrom);
         this.possibleDirections = new ArrayList(possibleDirections);
         this.possibleDirections.remove(cameFrom);
     }
 
 
-    public Breadcrumb(List<ClockWiseDirection> possibleDirections) {
+    public Breadcrumb(List<HeadingDirectionClockWise> possibleDirections) {
         this.cameFrom = Optional.empty();
         this.possibleDirections = new ArrayList(possibleDirections);
         this.possibleDirections.remove(cameFrom);
     }
 
-
-    public Optional<ClockWiseDirection> getCameFrom() {
+    public Optional<HeadingDirectionClockWise> getCameFrom() {
         return cameFrom;
     }
 
-    public List<ClockWiseDirection> getPossibleDirections() {
+    public List<HeadingDirectionClockWise> getPossibleDirections() {
         return possibleDirections;
     }
 
@@ -53,7 +52,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
             }
             if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
                 // Get the first direction
-                ClockWiseDirection direction = pathFollowed.peek().getPossibleDirections().remove(0);
+                HeadingDirectionClockWise direction = pathFollowed.peek().getPossibleDirections().remove(0);
                 ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateMoveForwardPositionInMaze(maze);
                 // TODO: make it more efficient than Olog(N)
                 if (getMovement().contains(nextPosition.getCoordinate())) continue;

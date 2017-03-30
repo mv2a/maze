@@ -42,14 +42,14 @@ public interface Explorer {
      *
      * @param direction the given direction the explorer should face to
      */
-    void turnTo(ClockWiseDirection direction);
+    void turnTo(HeadingDirectionClockWise direction);
 
     /**
      * Set heading direction of the explorer and move one forward
      *
      * @param direction the given direction the explorer should face to before the movement made
      */
-    default void moveTo(ClockWiseDirection direction) {
+    default void moveTo(HeadingDirectionClockWise direction) {
         turnTo(direction);
         moveForward();
     }
@@ -59,7 +59,7 @@ public interface Explorer {
      *
      * @return
      */
-    List<ClockWiseDirection> getPossibleDirections();
+    List<HeadingDirectionClockWise> getPossibleDirections();
 
     /**
      * Get the type of the field the explorer is facing against
