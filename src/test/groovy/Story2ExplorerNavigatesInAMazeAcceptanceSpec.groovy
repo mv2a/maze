@@ -8,7 +8,7 @@ import excelian.maze.model.MazeStructure
 import spock.lang.Unroll
 
 @Unroll
-class Story2ExplorerNavigatesInAMazeSpec extends spock.lang.Specification {
+class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specification {
 
     /*
         Given a maze the explorer should be able to drop in to the Start point.
@@ -20,6 +20,42 @@ class Story2ExplorerNavigatesInAMazeSpec extends spock.lang.Specification {
         Have a record of where they have been.
 
         Maze used:
+        XXXX
+        XS X
+        XX X
+        XXFX
+     */
+
+    def "The example maze in file ExampleTestMaze2.txt should be explored"() {
+        def fileName = "/ExampleTestMaze2.txt"
+
+        given:
+        "The example maze in file '#fileName' is created"
+        String mazeStr = this.getClass().getResource(fileName).text
+        MazeImpl maze = new MazeImpl(mazeStr)
+
+        Explorer explorer = new MazeExplorer(maze);
+
+        expect: "The explorer should be in the starting location facing up"
+        explorer.location == new ExplorerLocation(new MazeCoordinate(1, 1), ClockWiseDirection.UP)
+        explorer.whereAmI() == MazeStructure.START
+
+        and: "The explorer should follow the way out"
+        explorer.turnRight()
+        explorer.moveForward(1)
+        explorer.turnRight()
+        explorer.moveForward(2)
+        explorer.whereAmI() == MazeStructure.EXIT
+
+        explorer.movement == [
+                new MazeCoordinate(1, 1),
+                new MazeCoordinate(2, 1),
+                new MazeCoordinate(2, 2),
+                new MazeCoordinate(2, 3)
+        ]
+    }
+
+    /* Maze used:
         XXXXXXXXXXXXXXX
         X             X
         X XXXXXXXXXXX X
@@ -35,7 +71,7 @@ class Story2ExplorerNavigatesInAMazeSpec extends spock.lang.Specification {
         X X         X X
         X XXXXXXXXX   X
         XFXXXXXXXXXXXXX
-     */
+    */
 
     def "The example maze in file ExampleTestMaze1.txt should be explored"() {
         def fileName = "/ExampleTestMaze1.txt"
