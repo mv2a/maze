@@ -40,6 +40,8 @@ public interface Explorer {
         moveForward();
     }
 
+
+
     List<ClockWiseDirection> getPossibleDirections();
 
     Optional<MazeStructure> whatsInFront();

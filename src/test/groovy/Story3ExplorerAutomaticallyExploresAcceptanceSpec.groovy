@@ -18,7 +18,7 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
 
         Maze used:
         XXXX
-        X SX
+        XS X
         XX X
         XXFX
      */
@@ -37,7 +37,12 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
 
         def route = explorer.findWayOut()
 
-        route.size() == 1
+        route.size() == [
+                new MazeCoordinate(1, 1),
+                new MazeCoordinate(2, 1),
+                new MazeCoordinate(2, 2),
+                new MazeCoordinate(2, 3)
+        ]
 
     }
 
