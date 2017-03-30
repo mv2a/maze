@@ -109,6 +109,10 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
         "/ExampleTestMaze6.txt" | 21        | new MazeCoordinate(5, 4) | new MazeCoordinate(0, 1)
         "/ExampleTestMaze7.txt" | 5         | new MazeCoordinate(5, 4) | new MazeCoordinate(6, 1)
         "/ExampleTestMaze8.txt" | 6         | new MazeCoordinate(2, 2) | new MazeCoordinate(0, 1)
+        "/ExampleTestMaze9.txt" | 4         | new MazeCoordinate(1, 0) | new MazeCoordinate(1, 3)
+        "/ExampleTestMaze10.txt" | 4         | new MazeCoordinate(1, 3) | new MazeCoordinate(1, 0)
+        "/ExampleTestMaze11.txt" | 4         | new MazeCoordinate(0, 1) | new MazeCoordinate(3, 1)
+        "/ExampleTestMaze12.txt" | 4         | new MazeCoordinate(3, 1) | new MazeCoordinate(0, 1)
 
     }
 

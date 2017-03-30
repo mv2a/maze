@@ -11,22 +11,24 @@ import java.util.Stack;
 
 
 class Field {
-    private ClockWiseDirection cameFrom;
+    private Optional<ClockWiseDirection> cameFrom;
     private List<ClockWiseDirection> possibleDirections;
-    private MazeCoordinate coordinate;
 
-    public Field(ClockWiseDirection cameFrom, MazeCoordinate coordinate, List<ClockWiseDirection> possibleDirections) {
-        this.cameFrom = cameFrom;
-        this.coordinate = coordinate;
+    public Field(ClockWiseDirection cameFrom, List<ClockWiseDirection> possibleDirections) {
+        this.cameFrom = Optional.of(cameFrom);
         this.possibleDirections = new ArrayList(possibleDirections);
         this.possibleDirections.remove(cameFrom);
     }
 
-    public MazeCoordinate getCoordinate() {
-        return coordinate;
+
+    public Field(List<ClockWiseDirection> possibleDirections) {
+        this.cameFrom = Optional.empty();
+        this.possibleDirections = new ArrayList(possibleDirections);
+        this.possibleDirections.remove(cameFrom);
     }
 
-    public ClockWiseDirection getCameFrom() {
+
+    public Optional<ClockWiseDirection> getCameFrom() {
         return cameFrom;
     }
 
@@ -46,23 +48,25 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
         super(maze, startingDirection);
     }
 
-    Stack<Field> pathToFollow = new Stack<>();
+    private Stack<Field> pathFollowed = new Stack<>();
 
     private boolean findPathTillExit() {
-        while (!pathToFollow.isEmpty()) {
-            if (whereAmI() == MazeStructure.EXIT) { return true; }
-            if (!pathToFollow.peek().getPossibleDirections().isEmpty()) {
-                ClockWiseDirection direction = pathToFollow.peek().getPossibleDirections().remove(0);
+        while (!pathFollowed.isEmpty()) {
+            if (whatsAtMyLocation() == MazeStructure.EXIT) {
+                return true;
+            }
+            if (!pathFollowed.peek().getPossibleDirections().isEmpty()) {
+                ClockWiseDirection direction = pathFollowed.peek().getPossibleDirections().remove(0);
                 MazeCoordinate nextField = calculateNextFieldToMove(direction);
-                if(getMovement().contains(nextField)) continue;
+                if (getMovement().contains(nextField)) continue;
                 moveTo(direction);
-                pathToFollow.add(new Field(direction.opposite(), getLocation().getCoordinate(), getPossibleDirections()));
+                pathFollowed.add(new Field(direction.opposite(), getPossibleDirections()));
             } else {
                 // move back till there is a possible crossing
                 Field previousField;
                 do {
-                    previousField = pathToFollow.pop();
-                    moveTo(previousField.getCameFrom());
+                    previousField = pathFollowed.pop();
+                    moveTo(previousField.getCameFrom().get());
                 } while (!previousField.getPossibleDirections().isEmpty());
             }
         }
@@ -71,8 +75,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
     @Override
     public Optional<List<MazeCoordinate>> searchWayOut() {
-        // TODO: camefrom is not valid, though it never will be used
-        pathToFollow.add(new Field(ClockWiseDirection.DOWN, getLocation().getCoordinate(), getPossibleDirections()));
+        pathFollowed.add(new Field(getPossibleDirections()));
         boolean exitReached = findPathTillExit();
         if (exitReached) {
             return Optional.of(getMovement());

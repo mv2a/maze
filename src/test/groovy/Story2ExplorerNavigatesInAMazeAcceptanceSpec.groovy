@@ -38,14 +38,14 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
 
         expect: "The explorer should be in the starting location facing up"
         explorer.location == new ExplorerLocation(new MazeCoordinate(1, 1), ClockWiseDirection.UP)
-        explorer.whereAmI() == MazeStructure.START
+        explorer.whatsAtMyLocation() == MazeStructure.START
 
         and: "The explorer should follow the way out"
         explorer.turnRight()
         explorer.moveForward(1)
         explorer.turnRight()
         explorer.moveForward(2)
-        explorer.whereAmI() == MazeStructure.EXIT
+        explorer.whatsAtMyLocation() == MazeStructure.EXIT
 
         explorer.movement == [
                 new MazeCoordinate(1, 1),
@@ -85,7 +85,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
 
         expect: "The explorer should be in the starting location facing up"
         explorer.location == new ExplorerLocation(new MazeCoordinate(3, 3), ClockWiseDirection.UP)
-        explorer.whereAmI() == MazeStructure.START
+        explorer.whatsAtMyLocation() == MazeStructure.START
 
         and: "The explorer should follow the way out"
         explorer.turnRight()
@@ -113,7 +113,7 @@ class Story2ExplorerNavigatesInAMazeAcceptanceSpec extends spock.lang.Specificat
         explorer.turnLeft()
         explorer.moveForward(13)
 
-        explorer.whereAmI() == MazeStructure.EXIT
+        explorer.whatsAtMyLocation() == MazeStructure.EXIT
 
         explorer.movement.size() == 74
     }

@@ -105,7 +105,7 @@ public class MazeExplorer implements Explorer {
     }
 
     @Override
-    public MazeStructure whereAmI() {
+    public MazeStructure whatsAtMyLocation() {
         return maze.whatsAt(location.getCoordinate());
     }
 

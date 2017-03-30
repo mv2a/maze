@@ -191,11 +191,11 @@ public class MazeExplorerTest {
     }
 
     @Test
-    public void whereAmIReturnTHeCurrentLocationType() {
+    public void whatsAtMyLocationReturnTheCurrentLocationType() {
         when(mazeMock.whatsAt(startLocation)).thenReturn(MazeStructure.EXIT);
         MazeExplorer explorer = new MazeExplorer(mazeMock, ClockWiseDirection.UP);
 
-        assertThat(explorer.whereAmI(), is(MazeStructure.EXIT));
+        assertThat(explorer.whatsAtMyLocation(), is(MazeStructure.EXIT));
     }
 
     @Test

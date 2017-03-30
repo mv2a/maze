@@ -29,7 +29,7 @@ public interface Explorer {
 
     Optional<MazeStructure> whatsInFront();
 
-    MazeStructure whereAmI();
+    MazeStructure whatsAtMyLocation();
 
     List<MazeCoordinate> getMovement();
 
