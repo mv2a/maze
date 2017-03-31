@@ -25,10 +25,8 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
     private boolean findPathTillExit() {
         while (!pathFollowed.isEmpty()) {
-            if (pathFollowed.peek().getPossibleDirections().isEmpty()) {
-                moveBackToFirstFieldWithAlternateRoute();
-            } else {
-                HeadingDirectionClockWise direction = getFirstPossibleDirection();
+            if (pathFollowed.peek().hasUnexploredDirection()) {
+                HeadingDirectionClockWise direction = pathFollowed.peek().exploreFirstDirection();
 
                 ExplorerPosition nextPosition = getPosition().withDirection(direction).calculateForwardPositionInMaze(maze);
 
@@ -39,6 +37,8 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
                     }
                     pathFollowed.add(new Breadcrumb(direction.opposite(), getPossibleDirections()));
                 }
+            } else {
+                moveBackToFirstFieldWithAlternateRoute();
             }
         }
         return false;
@@ -51,11 +51,7 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
             if (previousBreadcrumb.getArrivingFrom().isPresent()) {
                 moveTo(previousBreadcrumb.getArrivingFrom().get());
             }
-        } while (!previousBreadcrumb.getPossibleDirections().isEmpty());
-    }
-
-    private HeadingDirectionClockWise getFirstPossibleDirection() {
-        return pathFollowed.peek().getPossibleDirections().remove(0);
+        } while (previousBreadcrumb.hasUnexploredDirection());
     }
 
     @Override
@@ -72,27 +68,32 @@ public class AutomaticMazeExplorer extends MazeExplorer implements AutomaticExpl
 
 class Breadcrumb {
     private final Optional<HeadingDirectionClockWise> arrivingFrom;
-    private final List<HeadingDirectionClockWise> possibleDirections;
+    private final List<HeadingDirectionClockWise> unexploredDirections;
 
-    public Breadcrumb(HeadingDirectionClockWise arrivingFrom, List<HeadingDirectionClockWise> possibleDirections) {
+    public Breadcrumb(HeadingDirectionClockWise arrivingFrom, List<HeadingDirectionClockWise> unexploredDirections) {
         this.arrivingFrom = Optional.of(arrivingFrom);
-        this.possibleDirections = new ArrayList<>(possibleDirections);
-        this.possibleDirections.remove(arrivingFrom);
+        this.unexploredDirections = new ArrayList<>(unexploredDirections);
+        this.unexploredDirections.remove(arrivingFrom);
     }
 
 
-    public Breadcrumb(List<HeadingDirectionClockWise> possibleDirections) {
+    public Breadcrumb(List<HeadingDirectionClockWise> unexploredDirections) {
         this.arrivingFrom = Optional.empty();
-        this.possibleDirections = new ArrayList<>(possibleDirections);
-        this.possibleDirections.remove(arrivingFrom);
+        this.unexploredDirections = new ArrayList<>(unexploredDirections);
+        this.unexploredDirections.remove(arrivingFrom);
     }
 
     public Optional<HeadingDirectionClockWise> getArrivingFrom() {
         return arrivingFrom;
     }
 
-    public List<HeadingDirectionClockWise> getPossibleDirections() {
-        return possibleDirections;
+    public boolean hasUnexploredDirection() {
+        return !unexploredDirections.isEmpty();
     }
+
+    public HeadingDirectionClockWise exploreFirstDirection() {
+        return unexploredDirections.remove(0);
+    }
+
 
 }
