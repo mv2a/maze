@@ -43,4 +43,4 @@ Acceptance Criteria:
 ## Testing
 - `mvn test` to run unit and acceptance tests
 
-- Thanks for the review!
+Thanks for the review!
