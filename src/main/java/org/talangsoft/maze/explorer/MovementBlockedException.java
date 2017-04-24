@@ -1,6 +1,6 @@
-package excelian.maze.explorer;
+package org.talangsoft.maze.explorer;
 
-import excelian.maze.model.MazeCoordinate;
+import org.talangsoft.maze.model.MazeCoordinate;
 
 public class MovementBlockedException extends RuntimeException {
     public MovementBlockedException(MazeCoordinate location) {

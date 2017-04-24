@@ -1,4 +1,4 @@
-package excelian.maze.model;
+package org.talangsoft.maze.model;
 
 import java.util.Arrays;
 import java.util.Optional;

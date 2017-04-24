@@ -1,7 +1,7 @@
-import excelian.maze.explorer.AutomaticExplorer
-import excelian.maze.explorer.AutomaticMazeExplorer
-import excelian.maze.model.MazeCoordinate
-import excelian.maze.model.MazeImpl
+import org.talangsoft.maze.explorer.AutomaticExplorer
+import org.talangsoft.maze.explorer.AutomaticMazeExplorer
+import org.talangsoft.maze.model.MazeCoordinate
+import org.talangsoft.maze.model.MazeImpl
 import spock.lang.Unroll
 
 @Unroll
@@ -113,6 +113,7 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
         "/TestMaze10.txt" | 4         | new MazeCoordinate(1, 3) | new MazeCoordinate(1, 0)
         "/TestMaze11.txt" | 4         | new MazeCoordinate(0, 1) | new MazeCoordinate(3, 1)
         "/TestMaze12.txt" | 4         | new MazeCoordinate(3, 1) | new MazeCoordinate(0, 1)
+        "/TestMaze13.txt" | 276       | new MazeCoordinate(11,13)| new MazeCoordinate(0, 1)
 
     }
 
@@ -131,10 +132,10 @@ class Story3ExplorerAutomaticallyExploresAcceptanceSpec extends spock.lang.Speci
         route == Optional.empty()
 
         where:
-        fileName                  | _
-        "/NoWayOutTestMaze13.txt" | _
-        "/NoWayOutTestMaze14.txt" | _
-        "/NoWayOutTestMaze15.txt" | _
+        fileName                 | _
+        "/NoWayOutTestMaze1.txt" | _
+        "/NoWayOutTestMaze2.txt" | _
+        "/NoWayOutTestMaze3.txt" | _
 
     }
 

@@ -1,10 +1,10 @@
-import excelian.maze.explorer.HeadingDirectionClockWise
-import excelian.maze.explorer.Explorer
-import excelian.maze.explorer.ExplorerPosition
-import excelian.maze.explorer.MazeExplorer
-import excelian.maze.model.MazeCoordinate
-import excelian.maze.model.MazeImpl
-import excelian.maze.model.MazeStructure
+import org.talangsoft.maze.explorer.HeadingDirectionClockWise
+import org.talangsoft.maze.explorer.Explorer
+import org.talangsoft.maze.explorer.ExplorerPosition
+import org.talangsoft.maze.explorer.MazeExplorer
+import org.talangsoft.maze.model.MazeCoordinate
+import org.talangsoft.maze.model.MazeImpl
+import org.talangsoft.maze.model.MazeStructure
 import spock.lang.Unroll
 
 @Unroll

@@ -1,4 +1,4 @@
-package excelian.maze.explorer;
+package org.talangsoft.maze.explorer;
 
 public enum HeadingDirectionClockWise {
     UP,

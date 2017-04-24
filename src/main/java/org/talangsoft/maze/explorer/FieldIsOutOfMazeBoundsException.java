@@ -1,4 +1,4 @@
-package excelian.maze.explorer;
+package org.talangsoft.maze.explorer;
 
 public class FieldIsOutOfMazeBoundsException extends RuntimeException {
     public FieldIsOutOfMazeBoundsException() {

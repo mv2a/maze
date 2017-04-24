@@ -1,4 +1,4 @@
-package excelian.maze.model;
+package org.talangsoft.maze.model;
 
 import org.junit.Test;
 

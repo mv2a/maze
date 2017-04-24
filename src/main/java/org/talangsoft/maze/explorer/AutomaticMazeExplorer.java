@@ -1,8 +1,8 @@
-package excelian.maze.explorer;
+package org.talangsoft.maze.explorer;
 
-import excelian.maze.model.Maze;
-import excelian.maze.model.MazeCoordinate;
-import excelian.maze.model.MazeStructure;
+import org.talangsoft.maze.model.Maze;
+import org.talangsoft.maze.model.MazeCoordinate;
+import org.talangsoft.maze.model.MazeStructure;
 
 import java.util.*;
 
